@@ -14,10 +14,10 @@ jobs:
       - name: List Files in Directory
         run: ls
       - name: Use DotNet Core
-        run: UseDotNet@2
+        uses: actions/setup-dotnet@v2
         with:
-          version: 6.0.x
-          includePreviewVersions: true
+          dotnet-version: 6.0.x
+
       - name: Check Dotnet CLi
         run: dotnet build
       - name: List Files in Directory
