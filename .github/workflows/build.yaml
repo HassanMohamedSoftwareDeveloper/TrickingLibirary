@@ -12,7 +12,12 @@ jobs:
       - name: Print Current Directory
         run: pwd
       - name: List Files in Directory
-        run: ls 
+        run: ls
+      - name: Use DotNet Core
+        run: UseDotNet@2
+        with:
+          version: 6.0.x
+          includePreviewVersions: true
       - name: Check Dotnet CLi
         run: dotnet build
       - name: List Files in Directory
