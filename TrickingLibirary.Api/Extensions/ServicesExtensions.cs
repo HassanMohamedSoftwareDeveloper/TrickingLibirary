@@ -1,4 +1,8 @@
-﻿namespace TrickingLibirary.Api.Extensions;
+﻿using Microsoft.EntityFrameworkCore;
+using TrickingLibirary.Domain.Interfaces;
+using TrickingLibirary.Infrastructure.Data;
+
+namespace TrickingLibirary.Api.Extensions;
 
 public static class ServicesExtensions
 {
@@ -12,6 +16,12 @@ public static class ServicesExtensions
            .AllowAnyOrigin()
            .AllowAnyMethod()
           ));
+        return services;
+    }
+
+    public static IServiceCollection RegisterDatabase(this IServiceCollection services)
+    {
+        services.AddDbContext<IDbContext, AppDbContext>(options => options.UseInMemoryDatabase("Dev"));
         return services;
     }
 }
