@@ -1,8 +1,16 @@
 [
   {
+    "name": "tricks-trick",
+    "path": "/tricks/:trick?",
+    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\web-client\\\\pages\\\\tricks\\\\_trick.vue",
+    "chunkName": "pages/tricks/_trick",
+    "_name": "_4d7115cc"
+  },
+  {
     "name": "index",
     "path": "/",
     "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\web-client\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_47c6528a"
   }
 ]

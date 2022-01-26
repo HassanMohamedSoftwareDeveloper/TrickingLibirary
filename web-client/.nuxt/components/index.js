@@ -1,4 +1,6 @@
-export { default as VideoUpload } from '../..\\components\\video-upload.vue'
+export { default as ContentCreationDialog } from '../..\\components\\content-creation\\content-creation-dialog.vue'
+export { default as ContentCreationSubmissionSteps } from '../..\\components\\content-creation\\submission-steps.vue'
+export { default as ContentCreationTrickSteps } from '../..\\components\\content-creation\\trick-steps.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

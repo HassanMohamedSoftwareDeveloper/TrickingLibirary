@@ -1,5 +1,11 @@
 {
-  "VideoUpload": {
-    "description": "Auto imported from components/video-upload.vue"
+  "ContentCreationDialog": {
+    "description": "Auto imported from components/content-creation/content-creation-dialog.vue"
+  },
+  "ContentCreationSubmissionSteps": {
+    "description": "Auto imported from components/content-creation/submission-steps.vue"
+  },
+  "ContentCreationTrickSteps": {
+    "description": "Auto imported from components/content-creation/trick-steps.vue"
   }
 }

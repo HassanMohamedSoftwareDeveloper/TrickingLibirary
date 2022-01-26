@@ -24,18 +24,19 @@ public class TrickController : ControllerBase
         return Ok(dbContext.Tricks.ToList());
     }
     [HttpGet("{id}")]
-    public IActionResult Get(int id)
+    public IActionResult Get(string id)
     {
-        return Ok(dbContext.Tricks.FirstOrDefault(x => x.Id.Equals(id)));
+        return Ok(dbContext.Tricks.FirstOrDefault(x => x.Id.Equals(id,StringComparison.InvariantCultureIgnoreCase)));
     }
     [HttpGet("{trickId}/submissions")]
-    public IActionResult ListSubmissionsForTrick(int trickId)
+    public IActionResult ListSubmissionsForTrick(string trickId)
     {
-        return Ok(dbContext.Submissions.Where(x => x.TrickId.Equals(trickId)).ToList());
+        return Ok(dbContext.Submissions.Where(x => x.TrickId.Equals(trickId,StringComparison.InvariantCultureIgnoreCase)).ToList());
     }
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Trick trick)
     {
+        trick.Id = trick.Name.Replace(".", "-").ToLowerInvariant();
         dbContext.Tricks.Add(trick);
         await dbContext.SaveChangesAsync();
         return Ok(trick);
@@ -43,15 +44,15 @@ public class TrickController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] Trick trick)
     {
-        if (trick.Id == 0) return null;
+        if (string.IsNullOrWhiteSpace(trick.Id)) return null;
         dbContext.Tricks.Add(trick);
         await dbContext.SaveChangesAsync();
         return Ok(trick);
     }
     [HttpDelete]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(string id)
     {
-        var trick = dbContext.Tricks.FirstOrDefault(x => x.Id.Equals(id));
+        var trick = dbContext.Tricks.FirstOrDefault(x => x.Id.Equals(id,StringComparison.InvariantCultureIgnoreCase));
         trick.Deleted = true;
         await dbContext.SaveChangesAsync();
         return Ok();

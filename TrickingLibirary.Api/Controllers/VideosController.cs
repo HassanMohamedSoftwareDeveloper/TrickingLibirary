@@ -19,7 +19,7 @@ public class VideosController : ControllerBase
     public IActionResult GetVideo(string video)
     {
         var mime = video.Split('.').Last();
-        var savePath = Path.Combine(env.WebRootPath, video);
+        var savePath = Path.Combine(env.WebRootPath, "videos", video);
         return new FileStreamResult(new FileStream(savePath, FileMode.Open, FileAccess.ReadWrite), MediaTypeHeaderValue.Parse("video/*"));
     }
     [HttpPost]
@@ -27,7 +27,7 @@ public class VideosController : ControllerBase
     {
         var mime = video.FileName.Split('.').Last();
         var fileName = string.Concat(Path.GetRandomFileName(), ".", mime);
-        var savePath = Path.Combine(env.WebRootPath, fileName);
+        var savePath = Path.Combine(env.WebRootPath, "videos", fileName);
         await using (FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
         {
             await video.CopyToAsync(fileStream);

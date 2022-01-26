@@ -6,4 +6,6 @@ You can directly use them in pages and other components without the need to impo
 
 **Tip:** If a component is conditionally rendered with `v-if` and is big, it is better to use `Lazy` or `lazy-` prefix to lazy load.
 
-- `<VideoUpload>` | `<video-upload>` (components/video-upload.vue)
+- `<ContentCreationDialog>` | `<content-creation-dialog>` (components/content-creation/content-creation-dialog.vue)
+- `<ContentCreationSubmissionSteps>` | `<content-creation-submission-steps>` (components/content-creation/submission-steps.vue)
+- `<ContentCreationTrickSteps>` | `<content-creation-trick-steps>` (components/content-creation/trick-steps.vue)

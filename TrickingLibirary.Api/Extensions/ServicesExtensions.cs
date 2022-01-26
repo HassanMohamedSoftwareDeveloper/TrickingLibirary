@@ -10,10 +10,9 @@ public static class ServicesExtensions
     {
         services.AddRazorPages();
         services.AddControllers();
-        services.AddCors(options =>
-        options.AddPolicy("All", build =>
-           build.AllowAnyHeader()
+        services.AddCors(options => options.AddPolicy("All", build => build
            .AllowAnyOrigin()
+           .AllowAnyHeader()
            .AllowAnyMethod()
           ));
         return services;
