@@ -1,5 +1,4 @@
 <template>
-  <v-dialog :value="active" persistent>
     <v-stepper v-model="step">
       <v-stepper-header>
         <v-stepper-step :complete="step > 1" step="1"
@@ -51,7 +50,6 @@
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
-  </v-dialog>
 </template>
 
 <script>
@@ -66,35 +64,34 @@ const initState = () => ({
   },
 });
 export default {
-  name: "submission-steps",
-  data: initState,
-
-  computed: {
-    ...mapGetters("tricks", ["trickItems"]),
-    ...mapState("video-upload", ["active"]),
-  },
-  watch: {
-    active: function (newValue) {
-      if (!newValue) {
-        Object.assign(this.$data, initState());
-      }
+    name: "submission-steps",
+    data: initState,
+    computed: {
+        ...mapGetters("tricks", ["trickItems"]),
+        ...mapState("video-upload", ["active"]),
     },
-  },
-  methods: {
-    ...mapMutations("video-upload", ["hide"]),
-    ...mapActions("video-upload", ["startVideoUpload", "createSubmission"]),
-
-    async handleFile(file) {
-      if (!file) return;
-      const form = new FormData();
-      form.append("video", file);
-      this.startVideoUpload({ form });
-      this.step++;
+    watch: {
+        active: function (newValue) {
+            if (!newValue) {
+                Object.assign(this.$data, initState());
+            }
+        },
     },
-    save() {
-      this.createSubmission({ form: this.form });
-      this.hide();
+    methods: {
+        ...mapMutations("video-upload", ["hide"]),
+        ...mapActions("video-upload", ["startVideoUpload", "createSubmission"]),
+        async handleFile(file) {
+            if (!file)
+                return;
+            const form = new FormData();
+            form.append("video", file);
+            this.startVideoUpload({ form });
+            this.step++;
+        },
+        save() {
+            this.createSubmission({ form: this.form });
+            this.hide();
+        },
     },
-  },
 };
 </script>

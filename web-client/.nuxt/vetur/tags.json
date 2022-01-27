@@ -1,4 +1,7 @@
 {
+  "HeaderMenu": {
+    "description": "Auto imported from components/header-menu.vue"
+  },
   "ContentCreationDialog": {
     "description": "Auto imported from components/content-creation/content-creation-dialog.vue"
   },

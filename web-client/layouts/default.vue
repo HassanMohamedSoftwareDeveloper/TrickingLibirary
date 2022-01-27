@@ -3,7 +3,7 @@
     <v-app-bar app dense>
       <v-toolbar-title>Tricking Libirary</v-toolbar-title>
       <v-spacer></v-spacer>
-       <!-- <v-btn  depressed @click="toggleActivity"> Upload </v-btn> -->
+      <HeaderMenu></HeaderMenu>
     </v-app-bar>
     <content-creation-dialog></content-creation-dialog>
     <v-main>
@@ -14,7 +14,8 @@
 
 <script>
 import ContentCreationDialog from '../components/content-creation/content-creation-dialog.vue';
+import HeaderMenu from '../components/header-menu.vue';
 export default {
-  components: {  ContentCreationDialog },
+  components: { ContentCreationDialog, HeaderMenu },
 };
 </script>
