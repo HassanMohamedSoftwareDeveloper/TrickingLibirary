@@ -2,8 +2,14 @@
   "HeaderMenu": {
     "description": "Auto imported from components/header-menu.vue"
   },
+  "ContentCreationCategoryForm": {
+    "description": "Auto imported from components/content-creation/category-form.vue"
+  },
   "ContentCreationDialog": {
     "description": "Auto imported from components/content-creation/content-creation-dialog.vue"
+  },
+  "ContentCreationDifficultyForm": {
+    "description": "Auto imported from components/content-creation/difficulty-form.vue"
   },
   "ContentCreationSubmissionSteps": {
     "description": "Auto imported from components/content-creation/submission-steps.vue"

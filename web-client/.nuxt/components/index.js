@@ -1,5 +1,7 @@
 export { default as HeaderMenu } from '../..\\components\\header-menu.vue'
+export { default as ContentCreationCategoryForm } from '../..\\components\\content-creation\\category-form.vue'
 export { default as ContentCreationDialog } from '../..\\components\\content-creation\\content-creation-dialog.vue'
+export { default as ContentCreationDifficultyForm } from '../..\\components\\content-creation\\difficulty-form.vue'
 export { default as ContentCreationSubmissionSteps } from '../..\\components\\content-creation\\submission-steps.vue'
 export { default as ContentCreationTrickSteps } from '../..\\components\\content-creation\\trick-steps.vue'
 

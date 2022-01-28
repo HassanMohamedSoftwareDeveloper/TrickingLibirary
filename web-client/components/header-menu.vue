@@ -24,6 +24,8 @@
 import { mapMutations } from "vuex";
 import TrickSteps from "./content-creation/trick-steps.vue";
 import SubmissionSteps from "./content-creation/submission-steps.vue";
+import CategoryForm from "./content-creation/category-form.vue";
+import DifficultyForm from "./content-creation/difficulty-form.vue";
 export default {
   components: {
     TrickSteps,
@@ -33,8 +35,10 @@ export default {
   computed: {
     menuItems() {
       return [
-        { component: TrickSteps, title: "Create Trick" },
+        { component: TrickSteps, title: "Trick" },
         { component: SubmissionSteps, title: "Submission" },
+        { component: CategoryForm, title: "Category" },
+        { component: DifficultyForm, title: "Difficulty" },
       ];
     },
   },

@@ -14,12 +14,6 @@
 import { mapState } from "vuex";
 export default {
   name: "IndexPage",
-  computed: {
-    ...mapState("tricks", ["tricks"]),
-    ...mapState("submissions", ["submissions"]),
-  },
-  async fetch(){
-    await this.$store.dispatch("tricks/fetchTricks",null,{root:true});
-  }
+  computed: mapState("tricks", ["tricks"])
 };
 </script>

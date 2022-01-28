@@ -15,5 +15,6 @@ public interface IDbContext
     #endregion
     #region Methods :
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+    int SaveChanges();
     #endregion
 }

@@ -1,5 +1,5 @@
 <template>
-  <v-dialog :value="active" persistent>
+  <v-dialog :value="active" persistent width="700">
     <div v-if="component">
       <component :is="component"></component>
     </div>

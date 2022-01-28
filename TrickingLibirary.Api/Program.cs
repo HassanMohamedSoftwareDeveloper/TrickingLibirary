@@ -1,4 +1,5 @@
 ﻿using TrickingLibirary.Api.Extensions;
+using TrickingLibirary.Api.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,5 +26,7 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapDefaultControllerRoute();
+
+TestDataHelper.AddTestData(app.Services, app.Environment);
 
 app.Run();

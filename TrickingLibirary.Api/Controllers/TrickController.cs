@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TrickingLibirary.Api.Form;
+using TrickingLibirary.Api.ViewModels;
 using TrickingLibirary.Domain.Entities;
 using TrickingLibirary.Domain.Interfaces;
 
@@ -21,12 +23,14 @@ public class TrickController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok(dbContext.Tricks.ToList());
+        return Ok(dbContext.Tricks.Select(TrickViewModels.Default).ToList());
     }
     [HttpGet("{id}")]
     public IActionResult Get(string id)
     {
-        return Ok(dbContext.Tricks.FirstOrDefault(x => x.Id.Equals(id,StringComparison.InvariantCultureIgnoreCase)));
+        return Ok(dbContext.Tricks
+            .Where(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase))
+            .Select(TrickViewModels.Default).FirstOrDefault());
     }
     [HttpGet("{trickId}/submissions")]
     public IActionResult ListSubmissionsForTrick(string trickId)
@@ -34,12 +38,19 @@ public class TrickController : ControllerBase
         return Ok(dbContext.Submissions.Where(x => x.TrickId.Equals(trickId,StringComparison.InvariantCultureIgnoreCase)).ToList());
     }
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Trick trick)
+    public async Task<IActionResult> Create([FromBody] TrickForm trickForm)
     {
-        trick.Id = trick.Name.Replace(".", "-").ToLowerInvariant();
+        Trick trick = new()
+        {
+            Id = trickForm.Name.Replace(".", "-").ToLowerInvariant(),
+            Name = trickForm.Name,
+            Description = trickForm.Description,
+            Difficulty = trickForm.Difficulty,
+            TrickCategories = trickForm.Categories.Select(x => new TrickCategory { CategoryId = x }).ToList()
+        };
         dbContext.Tricks.Add(trick);
         await dbContext.SaveChangesAsync();
-        return Ok(trick);
+        return Ok(TrickViewModels.Default.Compile().Invoke(trick));
     }
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] Trick trick)
@@ -47,7 +58,7 @@ public class TrickController : ControllerBase
         if (string.IsNullOrWhiteSpace(trick.Id)) return null;
         dbContext.Tricks.Add(trick);
         await dbContext.SaveChangesAsync();
-        return Ok(trick);
+        return Ok(TrickViewModels.Default.Compile().Invoke(trick));
     }
     [HttpDelete]
     public async Task<IActionResult> Delete(string id)
