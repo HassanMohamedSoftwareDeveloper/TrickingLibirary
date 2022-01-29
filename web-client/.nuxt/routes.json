@@ -1,5 +1,19 @@
 [
   {
+    "name": "category-category",
+    "path": "/category/:category?",
+    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\web-client\\\\pages\\\\category\\\\_category.vue",
+    "chunkName": "pages/category/_category",
+    "_name": "_487f2e57"
+  },
+  {
+    "name": "difficulty-difficulty",
+    "path": "/difficulty/:difficulty?",
+    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\web-client\\\\pages\\\\difficulty\\\\_difficulty.vue",
+    "chunkName": "pages/difficulty/_difficulty",
+    "_name": "_a42e7592"
+  },
+  {
     "name": "tricks-trick",
     "path": "/tricks/:trick?",
     "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\web-client\\\\pages\\\\tricks\\\\_trick.vue",

@@ -4,6 +4,8 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
+const _487f2e57 = () => interopDefault(import('..\\pages\\category\\_category.vue' /* webpackChunkName: "pages/category/_category" */))
+const _a42e7592 = () => interopDefault(import('..\\pages\\difficulty\\_difficulty.vue' /* webpackChunkName: "pages/difficulty/_difficulty" */))
 const _4d7115cc = () => interopDefault(import('..\\pages\\tricks\\_trick.vue' /* webpackChunkName: "pages/tricks/_trick" */))
 const _47c6528a = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
@@ -19,6 +21,14 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
+    path: "/category/:category?",
+    component: _487f2e57,
+    name: "category-category"
+  }, {
+    path: "/difficulty/:difficulty?",
+    component: _a42e7592,
+    name: "difficulty-difficulty"
+  }, {
     path: "/tricks/:trick?",
     component: _4d7115cc,
     name: "tricks-trick"

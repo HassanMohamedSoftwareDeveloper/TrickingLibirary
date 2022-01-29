@@ -2,6 +2,9 @@
   "HeaderMenu": {
     "description": "Auto imported from components/header-menu.vue"
   },
+  "TrickList": {
+    "description": "Auto imported from components/trick-list.vue"
+  },
   "ContentCreationCategoryForm": {
     "description": "Auto imported from components/content-creation/category-form.vue"
   },
