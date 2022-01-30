@@ -2,29 +2,29 @@
   {
     "name": "category-category",
     "path": "/category/:category?",
-    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\web-client\\\\pages\\\\category\\\\_category.vue",
+    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\TrickingLibirary\\\\web-client\\\\pages\\\\category\\\\_category.vue",
     "chunkName": "pages/category/_category",
-    "_name": "_487f2e57"
+    "_name": "_9dee7300"
   },
   {
     "name": "difficulty-difficulty",
     "path": "/difficulty/:difficulty?",
-    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\web-client\\\\pages\\\\difficulty\\\\_difficulty.vue",
+    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\TrickingLibirary\\\\web-client\\\\pages\\\\difficulty\\\\_difficulty.vue",
     "chunkName": "pages/difficulty/_difficulty",
-    "_name": "_a42e7592"
+    "_name": "_0a2820e0"
   },
   {
     "name": "tricks-trick",
     "path": "/tricks/:trick?",
-    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\web-client\\\\pages\\\\tricks\\\\_trick.vue",
+    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\TrickingLibirary\\\\web-client\\\\pages\\\\tricks\\\\_trick.vue",
     "chunkName": "pages/tricks/_trick",
-    "_name": "_4d7115cc"
+    "_name": "_4ddd6ffa"
   },
   {
     "name": "index",
     "path": "/",
-    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\web-client\\\\pages\\\\index.vue",
+    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\TrickingLibirary\\\\web-client\\\\pages\\\\index.vue",
     "chunkName": "pages/index",
-    "_name": "_47c6528a"
+    "_name": "_0e557673"
   }
 ]

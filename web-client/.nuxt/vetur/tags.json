@@ -2,8 +2,14 @@
   "HeaderMenu": {
     "description": "Auto imported from components/header-menu.vue"
   },
+  "ItemContentLayout": {
+    "description": "Auto imported from components/item-content-layout.vue"
+  },
   "TrickList": {
     "description": "Auto imported from components/trick-list.vue"
+  },
+  "VideoPlayer": {
+    "description": "Auto imported from components/video-player.vue"
   },
   "ContentCreationCategoryForm": {
     "description": "Auto imported from components/content-creation/category-form.vue"

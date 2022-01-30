@@ -1,18 +1,23 @@
 <template>
-  <div class="d-flex justify-center mt-2 align-start">
-    <trick-list :tricks="tricks" class="mx-2"/>
-    <v-sheet class="pa-2 mx-2 sticky" v-if="difficulty">
-      <div class="text-h6">{{ difficulty.name }}</div>
-      <v-divider class="my-1"></v-divider>
-      <div class="text-body-2">{{ difficulty.description }}</div>
-    </v-sheet>
-  </div>
+  <item-content-layout>
+    <template v-slot:content>
+      <trick-list :tricks="tricks" />
+    </template>
+    <template v-slot:item>
+      <div v-if="difficulty">
+        <div class="text-h6">{{ difficulty.name }}</div>
+        <v-divider class="my-1"></v-divider>
+        <div class="text-body-2">{{ difficulty.description }}</div>
+      </div>
+    </template>
+  </item-content-layout>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import trickList from "../../components/trick-list.vue";
+import ItemContentLayout from "../../components/item-content-layout.vue";
 export default {
-  components: { trickList },
+  components: { trickList, ItemContentLayout },
   data: () => ({
     difficulty: null,
     tricks: [],

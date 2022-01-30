@@ -42,10 +42,25 @@ public static class TestDataHelper
                     {
                         new Domain.Entities.TrickCategory {CategoryId="flip"}
                     },
-                    Prerequisites=new List<Domain.Entities.TrickRelationship>
+                    Prerequisites = new List<Domain.Entities.TrickRelationship>
                     {
                         new Domain.Entities.TrickRelationship{PrerequisiteId="backwards-roll"}
                     }
+                }
+                );
+
+            dbContext.Submissions.AddRange(
+                new Domain.Entities.Submission
+                {
+                    TrickId = "back-flip",
+                    Description = "test desceiption",
+                    Video = "vid1.mp4",
+                },
+                new Domain.Entities.Submission
+                {
+                    TrickId = "back-flip",
+                    Description = "test desceiption",
+                    Video = "vid2.mp4",
                 }
                 );
             dbContext.SaveChanges();
