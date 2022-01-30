@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
 namespace TrickingLibirary.Api.Controllers;
@@ -32,6 +33,22 @@ public class VideosController : ControllerBase
         {
             await video.CopyToAsync(fileStream);
         }
+
+        await Task.Run(() =>
+        {
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = Path.Combine(env.ContentRootPath, "FFMPEG", "ffmpeg.exe"),
+                Arguments = $"-y -i {savePath} -an -vf scale=540x380 {Path.Combine(env.WebRootPath,"videos", "test.mp4")}",
+                CreateNoWindow = true,
+                UseShellExecute = false,
+            };
+            using var process = new Process { StartInfo = startInfo };
+            process.Start();
+            process.WaitForExit();
+            process.Dispose();
+        });
+
         return Ok(fileName);
     }
 }
