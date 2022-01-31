@@ -37,8 +37,8 @@ export default {
       return [
         { component: TrickSteps, title: "Trick" },
         { component: SubmissionSteps, title: "Submission" },
-        { component: CategoryForm, title: "Category" },
         { component: DifficultyForm, title: "Difficulty" },
+        { component: CategoryForm, title: "Category" },
       ];
     },
   },

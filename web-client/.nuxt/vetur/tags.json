@@ -25,5 +25,8 @@
   },
   "ContentCreationTrickSteps": {
     "description": "Auto imported from components/content-creation/trick-steps.vue"
+  },
+  "ContentCreationShared": {
+    "description": "Auto imported from components/content-creation/_shared.js"
   }
 }

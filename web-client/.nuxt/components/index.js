@@ -7,6 +7,7 @@ export { default as ContentCreationDialog } from '../..\\components\\content-cre
 export { default as ContentCreationDifficultyForm } from '../..\\components\\content-creation\\difficulty-form.vue'
 export { default as ContentCreationSubmissionSteps } from '../..\\components\\content-creation\\submission-steps.vue'
 export { default as ContentCreationTrickSteps } from '../..\\components\\content-creation\\trick-steps.vue'
+export { default as ContentCreationShared } from '../..\\components\\content-creation\\_shared.js'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

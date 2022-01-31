@@ -15,3 +15,4 @@ You can directly use them in pages and other components without the need to impo
 - `<ContentCreationDifficultyForm>` | `<content-creation-difficulty-form>` (components/content-creation/difficulty-form.vue)
 - `<ContentCreationSubmissionSteps>` | `<content-creation-submission-steps>` (components/content-creation/submission-steps.vue)
 - `<ContentCreationTrickSteps>` | `<content-creation-trick-steps>` (components/content-creation/trick-steps.vue)
+- `<ContentCreationShared>` | `<content-creation-shared>` (components/content-creation/_shared.js)

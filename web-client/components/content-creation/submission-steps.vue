@@ -1,6 +1,12 @@
 <template>
-    <v-stepper v-model="step">
-      <v-stepper-header>
+  <v-card>
+    <v-card-title
+      >Create Submission
+      <v-spacer></v-spacer>
+      <v-btn @click="close" icon> <v-icon>mdi-close</v-icon> </v-btn>
+    </v-card-title>
+    <v-stepper class="rounded-0" v-model="step">
+      <v-stepper-header class="elevation-0">
         <v-stepper-step :complete="step > 1" step="1"
           >Upload Video</v-stepper-step
         >
@@ -16,7 +22,7 @@
         <v-stepper-step step="4">Review</v-stepper-step>
       </v-stepper-header>
       <v-stepper-items>
-        <v-stepper-content step="1">
+        <v-stepper-content class="pt-0" step="1">
           <div>
             <v-file-input accept="video/*" @change="handleFile"></v-file-input>
           </div>
@@ -29,7 +35,9 @@
               v-model="form.trickId"
               label="Select Trick"
             ></v-select>
-            <v-btn @click="step++">Next</v-btn>
+            <div class="d-flex justify-center">
+              <v-btn @click="step++">Next</v-btn>
+            </div>
           </div>
         </v-stepper-content>
 
@@ -39,51 +47,51 @@
               label="Description"
               v-model="form.description"
             ></v-text-field>
-            <v-btn @click="step++">Next</v-btn>
+            <div class="d-flex justify-center">
+              <v-btn @click="step++">Next</v-btn>
+            </div>
           </div>
         </v-stepper-content>
 
         <v-stepper-content step="4">
-          <div>
+          <div class="d-flex justify-center">
             <v-btn @click="save">Save</v-btn>
           </div>
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
+  </v-card>
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapActions } from "vuex";
+import { close } from "./_shared";
 
-const initState = () => ({
-  step: 1,
-  form: {
-    trickId: "",
-    video: "",
-    description: "",
-  },
-});
 export default {
-    name: "submission-steps",
-    data: initState,
-    computed: {
-        ...mapGetters("tricks", ["trickItems"]),
+  name: "submission-steps",
+  mixins: [close],
+  data: () => ({
+    step: 1,
+    form: {
+      trickId: "",
+      video: "",
+      description: "",
     },
-    methods: {
-        ...mapMutations("video-upload", ["hide"]),
-        ...mapActions("video-upload", ["startVideoUpload", "createSubmission"]),
-        async handleFile(file) {
-            if (!file)
-                return;
-            const form = new FormData();
-            form.append("video", file);
-            this.startVideoUpload({ form });
-            this.step++;
-        },
-        save() {
-            this.createSubmission({ form: this.form });
-            this.hide();
-        },
+  }),
+  computed: mapGetters("tricks", ["trickItems"]),
+  methods: {
+    ...mapActions("video-upload", ["startVideoUpload", "createSubmission"]),
+    async handleFile(file) {
+      if (!file) return;
+      const form = new FormData();
+      form.append("video", file);
+      this.startVideoUpload({ form });
+      this.step++;
     },
+    save() {
+      this.createSubmission({ form: this.form });
+      this.close();
+    },
+  },
 };
 </script>
