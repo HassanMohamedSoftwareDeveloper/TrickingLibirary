@@ -27,27 +27,14 @@ public class VideosController : ControllerBase
     public async Task<IActionResult> UploadVideo(IFormFile video)
     {
         var mime = video.FileName.Split('.').Last();
-        var fileName = string.Concat(Path.GetRandomFileName(), ".", mime);
+        var fileName = string.Concat($"temp_{DateTime.Now.Ticks}", ".", mime);
         var savePath = Path.Combine(env.WebRootPath, "videos", fileName);
         await using (FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
         {
             await video.CopyToAsync(fileStream);
         }
 
-        await Task.Run(() =>
-        {
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = Path.Combine(env.ContentRootPath, "FFMPEG", "ffmpeg.exe"),
-                Arguments = $"-y -i {savePath} -an -vf scale=540x380 {Path.Combine(env.WebRootPath,"videos", "test.mp4")}",
-                CreateNoWindow = true,
-                UseShellExecute = false,
-            };
-            using var process = new Process { StartInfo = startInfo };
-            process.Start();
-            process.WaitForExit();
-            process.Dispose();
-        });
+        
 
         return Ok(fileName);
     }

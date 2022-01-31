@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Channels;
+using Microsoft.AspNetCore.Mvc;
+using TrickingLibirary.Api.BackgroundServices;
 using TrickingLibirary.Domain.Entities;
 using TrickingLibirary.Domain.Interfaces;
 
@@ -21,7 +23,7 @@ public class SubmissionsController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok(dbContext.Submissions.ToList());
+        return Ok(dbContext.Submissions.Where(x=>x.VideoProcessed).ToList());
     }
     [HttpGet("{id}")]
     public IActionResult Get(int id)
@@ -29,10 +31,16 @@ public class SubmissionsController : ControllerBase
         return Ok(dbContext.Submissions.FirstOrDefault(x => x.Id.Equals(id)));
     }
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Submission submission)
+    public async Task<IActionResult> Create([FromServices] Channel<EditVideoMessage> channel, [FromBody] Submission submission)
     {
+        submission.VideoProcessed = false;
         dbContext.Submissions.Add(submission);
         await dbContext.SaveChangesAsync();
+        await channel.Writer.WriteAsync(new EditVideoMessage
+        {
+            SubmissionId = submission.Id,
+            Input = submission.Video,
+        });
         return Ok(submission);
     }
     [HttpPut]
