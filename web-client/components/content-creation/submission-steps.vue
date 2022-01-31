@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapActions, mapMutations } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 
 const initState = () => ({
   step: 1,
@@ -68,14 +68,6 @@ export default {
     data: initState,
     computed: {
         ...mapGetters("tricks", ["trickItems"]),
-        ...mapState("video-upload", ["active"]),
-    },
-    watch: {
-        active: function (newValue) {
-            if (!newValue) {
-                Object.assign(this.$data, initState());
-            }
-        },
     },
     methods: {
         ...mapMutations("video-upload", ["hide"]),

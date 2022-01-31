@@ -4,7 +4,7 @@ using TrickingLibirary.Api.Helpers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.RegisterWebServices().RegisterDatabase().RegisterBackgroundService().RegisterChannel();
+builder.Services.RegisterWebServices().RegisterDatabase().RegisterVideoManagerServices();
 
 var app = builder.Build();
 

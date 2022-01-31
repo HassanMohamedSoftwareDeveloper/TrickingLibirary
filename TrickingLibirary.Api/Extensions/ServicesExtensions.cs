@@ -1,6 +1,6 @@
 ﻿using System.Threading.Channels;
 using Microsoft.EntityFrameworkCore;
-using TrickingLibirary.Api.BackgroundServices;
+using TrickingLibirary.Api.BackgroundServices.VideoEditing;
 using TrickingLibirary.Domain.Interfaces;
 using TrickingLibirary.Infrastructure.Data;
 
@@ -26,14 +26,11 @@ public static class ServicesExtensions
         return services;
     }
 
-    public static IServiceCollection RegisterBackgroundService(this IServiceCollection services)
+    public static IServiceCollection RegisterVideoManagerServices(this IServiceCollection services)
     {
         services.AddHostedService<VideoEditingBackgroundService>();
-        return services;
-    }
-    public static IServiceCollection RegisterChannel(this IServiceCollection services)
-    {
         services.AddSingleton(_ => Channel.CreateUnbounded<EditVideoMessage>());
+        services.AddSingleton<VideoManager>();
         return services;
     }
 }
