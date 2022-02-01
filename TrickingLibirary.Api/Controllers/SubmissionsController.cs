@@ -1,6 +1,7 @@
 ﻿using System.Threading.Channels;
 using Microsoft.AspNetCore.Mvc;
 using TrickingLibirary.Api.BackgroundServices.VideoEditing;
+using TrickingLibirary.Api.Form;
 using TrickingLibirary.Domain.Entities;
 using TrickingLibirary.Domain.Interfaces;
 
@@ -34,16 +35,21 @@ public class SubmissionsController : ControllerBase
     public async Task<IActionResult> Create(
         [FromServices] Channel<EditVideoMessage> channel, 
         [FromServices]VideoManager videoManager,
-        [FromBody] Submission submission)
+        [FromBody] SubmissionForm submissionForm)
     {
-        if (videoManager.CheckTemporaryVideoIsExist(submission.Video) is false) return BadRequest();
-        submission.VideoProcessed = false;
+        if (videoManager.CheckTemporaryVideoIsExist(submissionForm.Video) is false) return BadRequest();
+        Submission submission = new()
+        {
+            TrickId=submissionForm.TrickId,
+            Description=submissionForm.Description,
+            VideoProcessed = false,
+        };
         dbContext.Submissions.Add(submission);
         await dbContext.SaveChangesAsync();
         await channel.Writer.WriteAsync(new EditVideoMessage
         {
             SubmissionId = submission.Id,
-            Input = submission.Video,
+            Input = submissionForm.Video,
         });
         return Ok(submission);
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TrickingLibirary.Api.Form;
 using TrickingLibirary.Api.ViewModels;
 using TrickingLibirary.Domain.Entities;
@@ -35,7 +36,8 @@ public class TrickController : ControllerBase
     [HttpGet("{trickId}/submissions")]
     public IActionResult ListSubmissionsForTrick(string trickId)
     {
-        return Ok(dbContext.Submissions.Where(x => x.TrickId.Equals(trickId,StringComparison.InvariantCultureIgnoreCase)).ToList());
+        return Ok(dbContext.Submissions.Include(x=>x.Video)
+            .Where(x => x.TrickId.Equals(trickId,StringComparison.InvariantCultureIgnoreCase)).ToList());
     }
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] TrickForm trickForm)

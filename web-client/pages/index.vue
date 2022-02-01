@@ -7,7 +7,7 @@
           <v-btn
             class="mx-1"
             v-for="item in s.collection"
-            :to="s.routeFactory(item.id)"
+            :to="s.routeFactory(item.id)" 
           >
             {{ item.name }}
           </v-btn>

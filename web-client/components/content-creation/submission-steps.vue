@@ -88,8 +88,8 @@ export default {
       this.startVideoUpload({ form });
       this.step++;
     },
-    save() {
-      this.createSubmission({ form: this.form });
+    async save() {
+      await this.createSubmission({ form: this.form });
       this.close();
     },
   },

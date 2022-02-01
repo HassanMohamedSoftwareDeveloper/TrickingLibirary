@@ -35,13 +35,15 @@ public class VideoEditingBackgroundService : BackgroundService
             try
             {
                 var inputPath = videoManager.GenerateTemporarySavePath(message.Input);
-                var outputName = videoManager.GenerateConvertedFileName();
-                var outputPath = videoManager.GenerateTemporarySavePath(outputName);
+                var outputConvertedName = videoManager.GenerateConvertedFileName();
+                var outputThumbnailName = videoManager.GenerateThumbnailFileName();
+                var outputConvertedPath = videoManager.GenerateTemporarySavePath(outputConvertedName);
+                var outputThumbnailPath = videoManager.GenerateTemporarySavePath(outputThumbnailName);
 
                 var startInfo = new ProcessStartInfo
                 {
                     FileName = Path.Combine(env.ContentRootPath, "FFMPEG", "ffmpeg.exe"),
-                    Arguments = $"-y -i {inputPath} -an -vf scale=540x380 {outputPath}",
+                    Arguments = $"-y -i {inputPath} -an -vf scale=540x380 {outputConvertedPath} -ss 00:00:00 -vframes 1 -vf scale=540x380 {outputThumbnailPath}",
                     WorkingDirectory = videoManager.WorkingDirectoryPath,
                     CreateNoWindow = true,
                     UseShellExecute = false,
@@ -50,20 +52,25 @@ public class VideoEditingBackgroundService : BackgroundService
                 process.Start();
                 process.WaitForExit();
 
-                if (videoManager.CheckTemporaryVideoIsExist(outputName) is false)
+                if (videoManager.CheckTemporaryVideoIsExist(outputConvertedName) is false)
                     throw new Exception("FFMPEG failed to generate converted video");
 
                 using var scope = serviceProvider.CreateScope();
                 var dbContext = scope.ServiceProvider.GetRequiredService<IDbContext>();
                 var submission = dbContext.Submissions.FirstOrDefault(x => x.Id.Equals(message.SubmissionId));
-                submission.Video = outputName;
+                submission.Video = new Domain.Entities.Video
+                {
+                    VideoLink = outputConvertedName,
+                    ThumbLink = outputThumbnailName,
+                };
                 submission.VideoProcessed = true;
 
                 await dbContext.SaveChangesAsync(stoppingToken);
+                logger.LogInformation("Success");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Video Processig Failed for {0]", message.Input);
+                logger.LogError(ex, "Video Processig Failed for {0}", message.Input);
             }
             finally
             {

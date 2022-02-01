@@ -11,7 +11,9 @@
       ref="video"
       muted
       loop
-      :src="`http://localhost:52891/api/videos/${video}`"
+      :src="`http://localhost:52891/api/videos/${video.videoLink}`"
+      :poster="`http://localhost:52891/api/videos/${video.thumbLink}`"
+      preload="none"
     ></video>
   </div>
 </template>
@@ -22,7 +24,7 @@ export default {
   props: {
     video: {
       required: true,
-      type: String,
+      type: Object,
     },
   },
   data: () => ({

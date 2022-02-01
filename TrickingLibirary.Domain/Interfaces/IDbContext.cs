@@ -12,6 +12,7 @@ public interface IDbContext
     public DbSet<TrickRelationship> TrickRelationships { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<TrickCategory> TrickCategories { get; set; }
+    public DbSet<Video> Videos { get; set; }
     #endregion
     #region Methods :
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
