@@ -1,17 +1,21 @@
 <template>
   <v-app dark>
     <v-app-bar app dense>
-      <nuxt-link class="text-h5 text--primary" style="text-decoration: none" to="/"
+      <nuxt-link
+        class="text-h5 text--primary"
+        style="text-decoration: none"
+        to="/"
         >Tricking Libirary</nuxt-link
       >
       <v-spacer></v-spacer>
+      <v-btn depressed to="/moderation">Moderation</v-btn>
       <HeaderMenu></HeaderMenu>
     </v-app-bar>
     <content-creation-dialog></content-creation-dialog>
     <v-main>
-    <v-container>
-      <Nuxt />
-    </v-container>
+      <v-container>
+        <Nuxt />
+      </v-container>
     </v-main>
   </v-app>
 </template>

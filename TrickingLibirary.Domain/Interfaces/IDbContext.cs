@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TrickingLibirary.Domain.Entities;
+using TrickingLibirary.Domain.Entities.Modertion;
 
 namespace TrickingLibirary.Domain.Interfaces;
 
@@ -13,6 +14,7 @@ public interface IDbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<TrickCategory> TrickCategories { get; set; }
     public DbSet<Video> Videos { get; set; }
+    public DbSet<ModerationItem> ModerationItems { get; set; }
     #endregion
     #region Methods :
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

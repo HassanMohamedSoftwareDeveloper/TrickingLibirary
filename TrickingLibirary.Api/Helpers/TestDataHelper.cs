@@ -1,4 +1,5 @@
-﻿using TrickingLibirary.Domain.Interfaces;
+﻿using TrickingLibirary.Domain.Entities.Modertion;
+using TrickingLibirary.Domain.Interfaces;
 
 namespace TrickingLibirary.Api.Helpers;
 
@@ -26,6 +27,17 @@ public static class TestDataHelper
                     Id = "backwards-roll",
                     Name = "Backwards Roll",
                     Description = "This is a test backwards roll",
+                    Difficulty = "easy",
+                    TrickCategories = new List<Domain.Entities.TrickCategory>
+                    {
+                        new Domain.Entities.TrickCategory {CategoryId="flip"}
+                    }
+                },
+                new Domain.Entities.Trick
+                {
+                    Id = "forwards-roll",
+                    Name = "Forwards Roll",
+                    Description = "This is a test forwards roll",
                     Difficulty = "easy",
                     TrickCategories = new List<Domain.Entities.TrickCategory>
                     {
@@ -71,6 +83,14 @@ public static class TestDataHelper
                         ThumbLink = "two.jpg",
                     },
                     VideoProcessed = true,
+                }
+                );
+
+            dbContext.ModerationItems.AddRange(
+                new Domain.Entities.Modertion.ModerationItem
+                {
+                    Target = "forwards-roll",
+                    Type = MpderationTypes.Trick
                 }
                 );
             dbContext.SaveChanges();

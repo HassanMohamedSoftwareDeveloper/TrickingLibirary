@@ -4,9 +4,11 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
+const _58831c8d = () => interopDefault(import('..\\pages\\moderation\\index.vue' /* webpackChunkName: "pages/moderation/index" */))
 const _9dee7300 = () => interopDefault(import('..\\pages\\category\\_category.vue' /* webpackChunkName: "pages/category/_category" */))
 const _0a2820e0 = () => interopDefault(import('..\\pages\\difficulty\\_difficulty.vue' /* webpackChunkName: "pages/difficulty/_difficulty" */))
 const _4ddd6ffa = () => interopDefault(import('..\\pages\\tricks\\_trick.vue' /* webpackChunkName: "pages/tricks/_trick" */))
+const _7c146396 = () => interopDefault(import('..\\pages\\moderation\\_type\\_id.vue' /* webpackChunkName: "pages/moderation/_type/_id" */))
 const _0e557673 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
@@ -21,6 +23,10 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
+    path: "/moderation",
+    component: _58831c8d,
+    name: "moderation"
+  }, {
     path: "/category/:category?",
     component: _9dee7300,
     name: "category-category"
@@ -32,6 +38,10 @@ export const routerOptions = {
     path: "/tricks/:trick?",
     component: _4ddd6ffa,
     name: "tricks-trick"
+  }, {
+    path: "/moderation/:type/:id?",
+    component: _7c146396,
+    name: "moderation-type-id"
   }, {
     path: "/",
     component: _0e557673,

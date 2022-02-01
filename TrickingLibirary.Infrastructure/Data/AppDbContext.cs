@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using TrickingLibirary.Domain.Entities;
+using TrickingLibirary.Domain.Entities.Modertion;
 using TrickingLibirary.Domain.Interfaces;
 
 namespace TrickingLibirary.Infrastructure.Data;
@@ -20,6 +21,7 @@ public class AppDbContext : DbContext,IDbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<TrickCategory> TrickCategories { get; set; }
     public DbSet<Video> Videos { get; set; }
+    public DbSet<ModerationItem> ModerationItems { get; set; }
     #endregion
     #region Methods :
     protected override void OnModelCreating(ModelBuilder modelBuilder)

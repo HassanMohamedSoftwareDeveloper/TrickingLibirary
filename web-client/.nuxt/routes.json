@@ -1,5 +1,12 @@
 [
   {
+    "name": "moderation",
+    "path": "/moderation",
+    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\TrickingLibirary\\\\web-client\\\\pages\\\\moderation\\\\index.vue",
+    "chunkName": "pages/moderation/index",
+    "_name": "_58831c8d"
+  },
+  {
     "name": "category-category",
     "path": "/category/:category?",
     "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\TrickingLibirary\\\\web-client\\\\pages\\\\category\\\\_category.vue",
@@ -19,6 +26,13 @@
     "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\TrickingLibirary\\\\web-client\\\\pages\\\\tricks\\\\_trick.vue",
     "chunkName": "pages/tricks/_trick",
     "_name": "_4ddd6ffa"
+  },
+  {
+    "name": "moderation-type-id",
+    "path": "/moderation/:type/:id?",
+    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\TrickingLibirary\\\\web-client\\\\pages\\\\moderation\\\\_type\\\\_id.vue",
+    "chunkName": "pages/moderation/_type/_id",
+    "_name": "_7c146396"
   },
   {
     "name": "index",
