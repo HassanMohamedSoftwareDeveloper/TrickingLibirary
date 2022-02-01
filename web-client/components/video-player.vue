@@ -14,6 +14,7 @@
       :src="`http://localhost:52891/api/videos/${video.videoLink}`"
       :poster="`http://localhost:52891/api/videos/${video.thumbLink}`"
       preload="none"
+      playsinline
     ></video>
   </div>
 </template>

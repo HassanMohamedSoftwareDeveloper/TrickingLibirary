@@ -37,7 +37,7 @@ public class SubmissionsController : ControllerBase
         [FromServices]VideoManager videoManager,
         [FromBody] SubmissionForm submissionForm)
     {
-        if (videoManager.CheckTemporaryVideoIsExist(submissionForm.Video) is false) return BadRequest();
+        if (videoManager.CheckTemporaryFileIsExist(submissionForm.Video) is false) return BadRequest();
         Submission submission = new()
         {
             TrickId=submissionForm.TrickId,

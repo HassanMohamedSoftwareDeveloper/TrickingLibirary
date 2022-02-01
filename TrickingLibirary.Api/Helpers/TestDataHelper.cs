@@ -49,22 +49,30 @@ public static class TestDataHelper
                 }
                 );
 
-            //dbContext.Submissions.AddRange(
-            //    new Domain.Entities.Submission
-            //    {
-            //        TrickId = "back-flip",
-            //        Description = "test desceiption",
-            //        Video = "vid1.mp4",
-            //        VideoProcessed=true,
-            //    },
-            //    new Domain.Entities.Submission
-            //    {
-            //        TrickId = "back-flip",
-            //        Description = "test desceiption",
-            //        Video = "vid2.mp4",
-            //        VideoProcessed = true,
-            //    }
-            //    );
+            dbContext.Submissions.AddRange(
+                new Domain.Entities.Submission
+                {
+                    TrickId = "back-flip",
+                    Description = "test desceiption",
+                    Video = new Domain.Entities.Video
+                    {
+                        VideoLink = "one.mp4",
+                        ThumbLink = "one.jpg",
+                    },
+                    VideoProcessed = true,
+                },
+                new Domain.Entities.Submission
+                {
+                    TrickId = "back-flip",
+                    Description = "test desceiption",
+                    Video = new Domain.Entities.Video
+                    {
+                        VideoLink = "two.mp4",
+                        ThumbLink = "two.jpg",
+                    },
+                    VideoProcessed = true,
+                }
+                );
             dbContext.SaveChanges();
         }
     }

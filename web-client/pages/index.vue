@@ -1,5 +1,6 @@
 <template>
   <div>
+  {{$config.api}}
     <div v-for="s in sections">
       <div class="d-flex flex-column align-center">
         <p class="text-h5">{{ s.title }}</p>
@@ -7,7 +8,8 @@
           <v-btn
             class="mx-1"
             v-for="item in s.collection"
-            :to="s.routeFactory(item.id)" 
+            :key="`${item.title}-${item.id}`"
+            :to="s.routeFactory(item.id)"
           >
             {{ item.name }}
           </v-btn>

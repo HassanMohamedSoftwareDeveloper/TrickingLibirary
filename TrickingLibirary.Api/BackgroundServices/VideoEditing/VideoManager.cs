@@ -8,13 +8,14 @@ public class VideoManager
     private const string ConvertedPrifex = "c";
     private const string ThumbnailPrifex = "t";
     private const string ConvertedVideoExtension = ".mp4";
-    private const string ThumbnailExtension = ".png";
+    private const string ThumbnailExtension = ".jpg";
     #endregion
     #region Fields :
     private readonly IWebHostEnvironment env;
     #endregion
     #region PROPS :
-    public string WorkingDirectoryPath => Path.Combine(env.WebRootPath, Directory);
+    private string WorkingDirectoryPath => Path.Combine(env.WebRootPath, Directory);
+    public string FFMPEGPath => Path.Combine(env.ContentRootPath, "FFMPEG", "ffmpeg.exe");
     #endregion
 
     #region CTORS :
@@ -26,8 +27,12 @@ public class VideoManager
 
     #region Methods :
     public bool CheckIsTemporary(string fileName) => fileName.StartsWith(TempPrifex);
-    public bool CheckTemporaryVideoIsExist(string fileName) => File.Exists(GenerateTemporarySavePath(fileName));
-    public void DeleteTemporaryVideo(string fileName) => File.Delete(GenerateTemporarySavePath(fileName));
+    public bool CheckTemporaryFileIsExist(string fileName) => File.Exists(GenerateTemporarySavePath(fileName));
+    public void DeleteTemporaryFile(string fileName)
+    {
+        if (CheckTemporaryFileIsExist(fileName)) 
+            File.Delete(GenerateTemporarySavePath(fileName));
+    }
     public string GenerateDevVideoPath(string fileName) => env.IsDevelopment() ? Path.Combine(WorkingDirectoryPath, fileName) : null;
     public string GenerateConvertedFileName() => string.Concat(ConvertedPrifex, DateTime.Now.Ticks, ConvertedVideoExtension);
     public string GenerateThumbnailFileName() => string.Concat(ThumbnailPrifex, DateTime.Now.Ticks, ThumbnailExtension);

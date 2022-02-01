@@ -36,8 +36,8 @@ public class VideosController : ControllerBase
     public IActionResult DeleteTemporaryVideo(string fileName)
     {
         if (videoManager.CheckIsTemporary(fileName) is false) return BadRequest();
-        if (videoManager.CheckTemporaryVideoIsExist(fileName) is false) return NoContent();
-        videoManager.DeleteTemporaryVideo(fileName);
+        if (videoManager.CheckTemporaryFileIsExist(fileName) is false) return NoContent();
+        videoManager.DeleteTemporaryFile(fileName);
         return Ok();
     } 
     #endregion
