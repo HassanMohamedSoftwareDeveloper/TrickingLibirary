@@ -6,7 +6,7 @@ using TrickingLibirary.Domain.Interfaces;
 
 namespace TrickingLibirary.Infrastructure.Data;
 
-public class AppDbContext : DbContext,IDbContext
+public class AppDbContext : DbContext, IDbContext
 {
     #region CTORS :
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -22,6 +22,7 @@ public class AppDbContext : DbContext,IDbContext
     public DbSet<TrickCategory> TrickCategories { get; set; }
     public DbSet<Video> Videos { get; set; }
     public DbSet<ModerationItem> ModerationItems { get; set; }
+    public DbSet<Comment> Comments { get; set; }
     #endregion
     #region Methods :
     protected override void OnModelCreating(ModelBuilder modelBuilder)

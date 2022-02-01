@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TrickingLibirary.Domain.Entities;
 using TrickingLibirary.Domain.Interfaces;
 
 namespace TrickingLibirary.Api.Controllers;
@@ -27,6 +30,34 @@ public class ModerationItemController : ControllerBase
     public IActionResult Get(int id)
     {
         return Ok(dbContext.ModerationItems.FirstOrDefault(x => x.Id.Equals(id)));
+    }
+
+    [HttpGet("{id}/comments")]
+    public IActionResult GetComments(int id)
+    {
+        return Ok(dbContext.ModerationItems
+            .Include(x => x.Comments)
+            .Where(x => x.Id.Equals(id))
+            .Select(x => x.Comments)
+            .FirstOrDefault());
+    }
+    [HttpPost("{id}/comments")]
+    public async Task<IActionResult> Comment(int id, [FromBody] Comment comment)
+    {
+        var moderationItem = dbContext.ModerationItems.FirstOrDefault(x => x.Id.Equals(id));
+
+        var regex = new Regex(@"\B(?<tag>@[a-zA-Z0-9-_]+)");//regex 1:1
+
+        comment.HtmlContent = regex.Matches(comment.Content)
+            .Aggregate(comment.Content, (content, match) =>
+            {
+                var tag = match.Groups["tag"].Value;
+                return content.Replace(tag, $"<a href=\"{tag}-user-link\">{tag}</a>");
+            });
+        
+        moderationItem.Comments.Add(comment);
+        await dbContext.SaveChangesAsync();
+        return Ok(comment);
     }
     #endregion
 }

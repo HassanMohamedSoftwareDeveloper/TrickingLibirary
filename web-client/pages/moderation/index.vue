@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-btn
-      :to="`/moderation/${i.type}/${i.target}`"
+      :to="`/moderation/${i.id}/${i.type}/${i.target}`"
       v-for="i in items"
       :key="i.id"
       >{{ i.target }}</v-btn

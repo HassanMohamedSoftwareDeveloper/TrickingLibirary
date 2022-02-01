@@ -28,11 +28,11 @@
     "_name": "_4ddd6ffa"
   },
   {
-    "name": "moderation-type-id",
-    "path": "/moderation/:type/:id?",
-    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\TrickingLibirary\\\\web-client\\\\pages\\\\moderation\\\\_type\\\\_id.vue",
-    "chunkName": "pages/moderation/_type/_id",
-    "_name": "_7c146396"
+    "name": "moderation-modId-type-trickId",
+    "path": "/moderation/:modId/:type?/:trickId?",
+    "component": "D:\\\\Study\\\\Projects\\\\TrickingLibirary\\\\TrickingLibirary\\\\web-client\\\\pages\\\\moderation\\\\_modId\\\\_type\\\\_trickId.vue",
+    "chunkName": "pages/moderation/_modId/_type/_trickId",
+    "_name": "_9d07fd36"
   },
   {
     "name": "index",
