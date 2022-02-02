@@ -1,0 +1,14 @@
+﻿@page
+@model TrickingLibirary.Api.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<form method="post">
+    <input asp-for="Form.ReturnUrl" type="hidden" value="@Model.Form.ReturnUrl" />
+    <input asp-for="Form.Username" />
+    <span asp-validation-for="Form.Username"></span>
+    <input asp-for="Form.Password" />
+    <span asp-validation-for="Form.Password"></span>
+    <button type="submit">Sign In</button>
+</form>

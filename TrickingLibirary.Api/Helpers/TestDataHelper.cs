@@ -1,4 +1,5 @@
-﻿using TrickingLibirary.Domain.Entities.Modertion;
+﻿using Microsoft.AspNetCore.Identity;
+using TrickingLibirary.Domain.Entities.Modertion;
 using TrickingLibirary.Domain.Interfaces;
 
 namespace TrickingLibirary.Api.Helpers;
@@ -87,13 +88,18 @@ public static class TestDataHelper
                 );
 
             dbContext.ModerationItems.AddRange(
-                new Domain.Entities.Modertion.ModerationItem
+                new ModerationItem
                 {
                     Target = "forwards-roll",
                     Type = MpderationTypes.Trick
                 }
                 );
+
             dbContext.SaveChanges();
+
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var user = new IdentityUser("test");
+            userManager.CreateAsync(user, "password").GetAwaiter().GetResult();
         }
     }
 }
