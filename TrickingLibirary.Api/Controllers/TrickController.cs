@@ -24,14 +24,14 @@ public class TrickController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok(dbContext.Tricks.Select(TrickViewModels.Default).ToList());
+        return Ok(dbContext.Tricks.Select(TrickViewModels.Projection).ToList());
     }
     [HttpGet("{id}")]
     public IActionResult Get(string id)
     {
         return Ok(dbContext.Tricks
             .Where(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase))
-            .Select(TrickViewModels.Default).FirstOrDefault());
+            .Select(TrickViewModels.Projection).FirstOrDefault());
     }
     [HttpGet("{trickId}/submissions")]
     public IActionResult ListSubmissionsForTrick(string trickId)
@@ -52,7 +52,7 @@ public class TrickController : ControllerBase
         };
         dbContext.Tricks.Add(trick);
         await dbContext.SaveChangesAsync();
-        return Ok(TrickViewModels.Default.Compile().Invoke(trick));
+        return Ok(TrickViewModels.Create(trick));
     }
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] Trick trick)
@@ -60,7 +60,7 @@ public class TrickController : ControllerBase
         if (string.IsNullOrWhiteSpace(trick.Id)) return null;
         dbContext.Tricks.Add(trick);
         await dbContext.SaveChangesAsync();
-        return Ok(TrickViewModels.Default.Compile().Invoke(trick));
+        return Ok(TrickViewModels.Create(trick));
     }
     [HttpDelete]
     public async Task<IActionResult> Delete(string id)

@@ -5,7 +5,8 @@ namespace TrickingLibirary.Api.ViewModels;
 
 public static class TrickViewModels
 {
-    public static Expression<Func<Trick, object>> Default =>
+    public static readonly Func<Trick, object> Create = Projection.Compile();
+    public static Expression<Func<Trick, object>> Projection =>
         trick => new
         {
             trick.Id,
