@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using TrickingLibirary.Domain.Entities.Modertion;
 using TrickingLibirary.Domain.Interfaces;
 
@@ -100,6 +101,11 @@ public static class TestDataHelper
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
             var user = new IdentityUser("test");
             userManager.CreateAsync(user, "password").GetAwaiter().GetResult();
+
+            var mod = new IdentityUser("mod");
+            userManager.CreateAsync(mod, "password").GetAwaiter().GetResult();
+            userManager.AddClaimAsync(mod,new Claim(ClaimTypes.Role, 
+                Tricking_LibiraryConstants.Roles.Mod)).GetAwaiter().GetResult();
         }
     }
 }

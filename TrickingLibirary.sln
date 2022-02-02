@@ -18,6 +18,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{54B692BF-DCA1-4EF1-A78E-7503EA6CB060}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		Links.txt = Links.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrickingLibirary.Domain", "TrickingLibirary.Domain\TrickingLibirary.Domain.csproj", "{01BFD77C-4D5F-4912-912A-CBFB60E7C23F}"

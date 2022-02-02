@@ -2,6 +2,8 @@
   <div>
     <div>
       <v-btn @click="login">Login</v-btn>
+      <v-btn @click="api('test')">Api Test Auth</v-btn>
+      <v-btn @click="api('mod')">Api Mod Auth</v-btn>
     </div>
     <div v-for="s in sections">
       <div class="d-flex flex-column align-center">
@@ -37,19 +39,26 @@ export default {
         client_id: "web-client",
         redirect_uri: "http://localhost:3000",
         response_type: "code",
-        scope: "openid profile",
-        //loadUserInfo :true ,
+        scope: 'openid profile IdentityServerApi',
         post_logout_redirect_uri: "http://localhost:3000",
-        //silent_redirect_uri:"http://localhost:3000",
-        userStore: new WebStorageStateStore({
-          store: window.localStorage,
-        }),
+        // silent_redirect_uri: "http://localhost:3000/",
+        userStore: new WebStorageStateStore({store: window.localStorage})
       });
-      const { code, scope, session_state, state } = this.$route.query;
+
+      this.userMgr.getUser().then(user => {
+        if (user) {
+          console.log("user from storage", user)
+          this.$axios.setToken(`Bearer ${user.access_token}`)
+        }
+      });;
+
+      const {code, scope, session_state, state} = this.$route.query
       if (code && scope && session_state && state) {
-        this.userMgr.signinRedirectCallback().then((user) => {
-          console.log(user);
-          this.$router.push("/");
+        this.userMgr.signinRedirectCallback()
+        .then(user => {
+          console.log(user)
+          this.$axios.setToken(`Bearer ${user.access_token}`)
+          this.$router.push('/')
         });
       }
     }
@@ -58,6 +67,10 @@ export default {
     login() {
       return this.userMgr.signinRedirect();
     },
+api(x) {
+      return this.$axios.$get("/api/trick/" + x)
+        .then(msg => console.log(msg));
+    }
   },
   computed: {
     ...mapState("tricks", ["tricks", "categories", "difficulties"]),

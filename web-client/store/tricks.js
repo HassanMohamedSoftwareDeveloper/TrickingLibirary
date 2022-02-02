@@ -39,7 +39,6 @@ export const actions = {
     const tricks = await this.$axios.$get("/api/trick");
     const categories = await this.$axios.$get("/api/categories");
     const difficulties = await this.$axios.$get("/api/difficulties");
-    console.log(tricks, categories, difficulties);
     commit("setTricks", { tricks, categories, difficulties });
   },
   createTrick({ state, commit, dispatch }, { form }) {

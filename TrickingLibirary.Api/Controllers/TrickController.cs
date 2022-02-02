@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IdentityServer4;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TrickingLibirary.Api.Form;
+using TrickingLibirary.Api.Helpers;
 using TrickingLibirary.Api.ViewModels;
 using TrickingLibirary.Domain.Entities;
 using TrickingLibirary.Domain.Interfaces;
@@ -21,6 +24,16 @@ public class TrickController : ControllerBase
         this.dbContext = dbContext;
     }
     #endregion
+
+    #region Endpoints :
+    [HttpGet("test")]
+    [Authorize(Policy = IdentityServerConstants.LocalApi.PolicyName)]
+    public string TestAuth() => "test";
+
+    [HttpGet("mod")]
+    [Authorize(Policy = Tricking_LibiraryConstants.Policies.Mod)]
+    public string ModAuth() => "mod";
+
     [HttpGet]
     public IActionResult Get()
     {
@@ -36,8 +49,8 @@ public class TrickController : ControllerBase
     [HttpGet("{trickId}/submissions")]
     public IActionResult ListSubmissionsForTrick(string trickId)
     {
-        return Ok(dbContext.Submissions.Include(x=>x.Video)
-            .Where(x => x.TrickId.Equals(trickId,StringComparison.InvariantCultureIgnoreCase)).ToList());
+        return Ok(dbContext.Submissions.Include(x => x.Video)
+            .Where(x => x.TrickId.Equals(trickId, StringComparison.InvariantCultureIgnoreCase)).ToList());
     }
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] TrickForm trickForm)
@@ -65,9 +78,10 @@ public class TrickController : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> Delete(string id)
     {
-        var trick = dbContext.Tricks.FirstOrDefault(x => x.Id.Equals(id,StringComparison.InvariantCultureIgnoreCase));
+        var trick = dbContext.Tricks.FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase));
         trick.Deleted = true;
         await dbContext.SaveChangesAsync();
         return Ok();
     }
+    #endregion
 }

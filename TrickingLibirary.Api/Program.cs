@@ -4,10 +4,10 @@ using TrickingLibirary.Api.Helpers;
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services
-    .RegisterWebServices()
     .RegisterDatabase()
-    .RegisterVideoManagerServices()
-    .RegisterIdentityServices(builder.Environment);
+    .RegisterIdentityServices(builder.Environment)
+    .RegisterWebServices()
+    .RegisterVideoManagerServices();
 
 var app = builder.Build();
 
@@ -22,11 +22,13 @@ if (!app.Environment.IsDevelopment())
 //app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCors("All");
+
 app.UseAuthentication();
 app.UseIdentityServer();
+
 app.UseRouting();
 
-//app.UseAuthorization();
+app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapDefaultControllerRoute();

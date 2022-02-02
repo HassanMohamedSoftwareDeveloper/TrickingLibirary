@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using IdentityServer4.Models;
 using IdentityServer4;
+using System.Security.Claims;
+using TrickingLibirary.Api.Helpers;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace TrickingLibirary.Api.Extensions;
 
@@ -41,6 +44,7 @@ public static class ServicesExtensions
     {
         services.AddDbContext<IdentityDbContext>(config =>
         config.UseInMemoryDatabase("DevIdentity"));
+
         services.AddIdentity<IdentityUser, IdentityRole>(options =>
         {
             if (env.IsDevelopment())
@@ -62,10 +66,10 @@ public static class ServicesExtensions
         services.ConfigureApplicationCookie(config =>
         {
             // add an instance of the patched manager to the options:
-            //config.CookieManager = new ChunkingCookieManager();
+            config.CookieManager = new ChunkingCookieManager();
 
             config.Cookie.HttpOnly = true;
-           // config.Cookie.SameSite = SameSiteMode.None;
+            config.Cookie.SameSite = SameSiteMode.None;
             config.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             config.LoginPath = "/account/login";
         });
@@ -79,6 +83,10 @@ public static class ServicesExtensions
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+            });
+            identityServerBuilder.AddInMemoryApiScopes(new ApiScope[]
+            {
+                new ApiScope(IdentityServerConstants.LocalApi.ScopeName,new []{ ClaimTypes.Role})
             });
 
             identityServerBuilder.AddInMemoryClients(new Client[]
@@ -95,6 +103,7 @@ public static class ServicesExtensions
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.LocalApi.ScopeName
                     },
 
                     RequirePkce=true,
@@ -107,6 +116,19 @@ public static class ServicesExtensions
 
             identityServerBuilder.AddDeveloperSigningCredential();
         }
+
+        services.AddLocalApiAuthentication();
+
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy(Tricking_LibiraryConstants.Policies.Mod, policy =>
+            {
+                var is4Policy = options.GetPolicy(IdentityServerConstants.LocalApi.PolicyName);
+                policy.Combine(is4Policy);
+
+                policy.RequireClaim(ClaimTypes.Role, Tricking_LibiraryConstants.Roles.Mod);
+            });
+        });
         return services;
     }
 }
