@@ -6,6 +6,7 @@ using TrickingLibirary.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using IdentityServer4.Models;
+using IdentityServer4;
 
 namespace TrickingLibirary.Api.Extensions;
 
@@ -60,6 +61,12 @@ public static class ServicesExtensions
 
         services.ConfigureApplicationCookie(config =>
         {
+            // add an instance of the patched manager to the options:
+            //config.CookieManager = new ChunkingCookieManager();
+
+            config.Cookie.HttpOnly = true;
+           // config.Cookie.SameSite = SameSiteMode.None;
+            config.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             config.LoginPath = "/account/login";
         });
 
@@ -84,6 +91,11 @@ public static class ServicesExtensions
                     PostLogoutRedirectUris=new []{ "http://localhost:3000" },
                     AllowedCorsOrigins=new []{ "http://localhost:3000" },
 
+                    AllowedScopes = new[]
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                    },
 
                     RequirePkce=true,
                     AllowAccessTokensViaBrowser=true,
