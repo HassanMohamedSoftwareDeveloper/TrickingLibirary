@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TrickingLibirary.Api.ViewModels;
 using TrickingLibirary.Domain.Entities;
+using TrickingLibirary.Domain.Entities.Modertion;
 using TrickingLibirary.Domain.Interfaces;
 
 namespace TrickingLibirary.Api.Controllers;
@@ -44,8 +45,7 @@ public class ModerationItemController : ControllerBase
     [HttpPost("{id}/comments")]
     public async Task<IActionResult> Comment(int id, [FromBody] Comment comment)
     {
-        var moderationItem = dbContext.ModerationItems.FirstOrDefault(x => x.Id.Equals(id));
-        if (moderationItem is null) return NoContent();
+        if (dbContext.ModerationItems.Any(x => x.Id.Equals(id)) is false) return NoContent();
         var regex = new Regex(@"\B(?<tag>@[a-zA-Z0-9-_]+)");//regex 1:1
 
         comment.HtmlContent = regex.Matches(comment.Content)
@@ -55,9 +55,27 @@ public class ModerationItemController : ControllerBase
                 return content.Replace(tag, $"<a href=\"{tag}-user-link\">{tag}</a>");
             });
 
-        moderationItem.Comments.Add(comment);
+        comment.ModerationItemId = id;
+        dbContext.Comments.Add(comment);
         await dbContext.SaveChangesAsync();
         return Ok(CommentViewModel.Create(comment));
+    }
+
+    [HttpGet("{id}/reviews")]
+    public IActionResult GetReviews(int id)
+    {
+        return Ok(dbContext.Reviews
+            .Where(x => x.ModerationItemId.Equals(id))
+            .ToList());
+    }
+    [HttpPost("{id}/reviews")]
+    public async Task<IActionResult> Review(int id, [FromBody] Review review)
+    {
+        if (dbContext.ModerationItems.Any(x => x.Id.Equals(id)) is false) return NoContent();
+        review.ModerationItemId = id;
+        dbContext.Reviews.Add(review);
+        await dbContext.SaveChangesAsync();
+        return Ok(review);
     }
     #endregion
 }

@@ -10,7 +10,7 @@
         >Load Replies</v-btn
       >
     </div>
-    <comment-input
+    <comment-input label="Reply"
       v-if="replying"
       @send="(c) => $emit('send', c)"
       @cancel="replying = false"

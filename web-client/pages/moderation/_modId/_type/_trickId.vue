@@ -1,35 +1,78 @@
 <template>
   <div>
     <div v-if="item">{{ item.description }}</div>
-    <comment-section :comments="comments" @send="send"/>
-
-    <!--<div class="my-1" v-for="c in comments">
-      <span v-html="c.htmlContent"></span>
-      <v-btn small @click="replyId = c.id">Reply</v-btn>
-      <v-btn small @click="loadReplies(c)">Load Replies</v-btn>
-      <div v-for="r in c.replies">
-        <span v-html="r.htmlContent"></span>
-      </div>
-    </div>-->
+    <v-row>
+      <v-col cols="7">
+        <comment-section :comments="comments" @send="sendComment" />
+      </v-col>
+      <v-col cols="5">
+        <v-card>
+          <v-card-title>Review ({{ approveCount }} / 3)</v-card-title>
+          <v-card-text>
+            <div v-if="reviews.length > 0">
+              <div v-for="review in reviews" :key="`rev-${review.id}`">
+                <v-icon small :color="reviewStatusColor(review.reviewStatus)">{{
+                  reviewStatusIcon(review.reviewStatus)
+                }}</v-icon>
+                UserName
+                <span v-if="review.comment"> - {{ review.comment }} </span>
+              </div>
+            </div>
+            <div v-else>No Reviews</div>
+            <v-divider class="my-3" />
+            <v-text-field
+              label="Review Comment"
+              v-model="reviewComment"
+            ></v-text-field>
+          </v-card-text>
+          <v-card-actions class="justify-center">
+            <v-btn
+              v-for="action in reviewActions"
+              :key="`ra-${action.title}`"
+              :color="reviewStatusColor(action.status)"
+              :disabled="action.disabled"
+              @click="createReview(action.status)"
+            >
+              <v-icon small>{{ reviewStatusIcon(action.status) }}</v-icon>
+              {{ action.title }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
 <script>
-import commentSection from "../../../../components/comments/comment-section.vue";
+import commentSection from "@/components/comments/comment-section.vue";
 const endpointResolver = (type) => {
   if (type === "trick") return "trick";
 };
-const commentWithReplies = (comment) => ({
-  ...comment,
-  replies: [],
-});
+const REVIEW_STATUS = {
+  APPROVED: 0,
+  REJECTED: 1,
+  WAITING: 2,
+};
+const reviewStatusColor = (status) => {
+  if (REVIEW_STATUS.APPROVED == status) return "green";
+  if (REVIEW_STATUS.REJECTED == status) return "red";
+  if (REVIEW_STATUS.WAITING == status) return "orange";
+  return "";
+};
+const reviewStatusIcon = (status) => {
+  if (REVIEW_STATUS.APPROVED == status) return "mdi-check";
+  if (REVIEW_STATUS.REJECTED == status) return "mdi-close";
+  if (REVIEW_STATUS.WAITING == status) return "mdi-clock";
+  return "";
+};
 export default {
   components: { commentSection },
   data: () => ({
     item: null,
     comments: [],
-    comment: "",
+    reviewComment: "",
     replyId: 0,
+    reviews: [],
   }),
   created() {
     const { modId, type, trickId } = this.$route.params;
@@ -40,34 +83,59 @@ export default {
 
     this.$axios
       .$get(`/api/ModerationItem/${modId}/comments`)
-      .then((comments) => (this.comments = comments.map(commentWithReplies)));
+      .then((comments) => (this.comments = comments));
+
+    this.$axios
+      .$get(`/api/ModerationItem/${modId}/reviews`)
+      .then((reviews) => (this.reviews = reviews));
   },
   methods: {
-    send(content) {
+    sendComment(content) {
       const { modId } = this.$route.params;
-     return this.$axios
-        .$post(`/api/ModerationItem/${modId}/comments`, {content})
+      return this.$axios
+        .$post(`/api/ModerationItem/${modId}/comments`, { content })
         .then((comment) => {
           this.comments.push(comment);
         });
-
-      // if (this.replyId > 0) {
-      //   this.$axios
-      //     .$post(`/api/comment/${this.replyId}/replies`, {
-      //       content: this.comment,
-      //     })
-      //     .then((reply) => {
-      //       this.comments
-      //         .find((x) => x.id === this.replyId)
-      //         .replies.push(reply);
-      //       this.comment = "";
-      //     });
-      // } else {
-
-      // }
     },
 
+    createReview(status) {
+      const { modId } = this.$route.params;
+      return this.$axios
+        .$post(`/api/ModerationItem/${modId}/reviews`, {
+          comment: this.reviewComment,
+          reviewStatus: status,
+        })
+        .then((review) => {
+          this.reviews.push(review);
+          this.reviewComment = "";
+        });
+    },
 
+    reviewStatusColor,
+    reviewStatusIcon,
+  },
+  computed: {
+    reviewActions() {
+      return [
+        { title: "Approve", status: REVIEW_STATUS.APPROVED, disabled: false },
+        {
+          title: "Reject",
+          status: REVIEW_STATUS.REJECTED,
+          disabled: !this.reviewComment,
+        },
+        {
+          title: "Wait",
+          status: REVIEW_STATUS.WAITING,
+          disabled: !this.reviewComment,
+        },
+      ];
+    },
+    approveCount() {
+      return this.reviews.filter(
+        (x) => x.reviewStatus === REVIEW_STATUS.APPROVED
+      ).length;
+    },
   },
 };
 </script>

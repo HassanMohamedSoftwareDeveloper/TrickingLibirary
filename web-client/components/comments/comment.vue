@@ -6,7 +6,7 @@
         v-for="reply in replies"
         :comment="reply"
         @send="send"
-        :key="reply.id"
+        :key="`reply-${reply.id}`"
       />
     </div>
   </div>
@@ -33,7 +33,7 @@ export default {
         .then((reply) => this.replies.push(reply));
     },
     loadReplies() {
-      this.$axios
+     return this.$axios
         .$get(`/api/comment/${this.comment.id}/replies`)
         .then((replies) => (this.replies = replies));
     },
