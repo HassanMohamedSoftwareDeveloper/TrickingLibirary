@@ -8,6 +8,10 @@ export { default as ContentCreationDifficultyForm } from '../..\\components\\con
 export { default as ContentCreationSubmissionSteps } from '../..\\components\\content-creation\\submission-steps.vue'
 export { default as ContentCreationTrickSteps } from '../..\\components\\content-creation\\trick-steps.vue'
 export { default as ContentCreationShared } from '../..\\components\\content-creation\\_shared.js'
+export { default as CommentsCommentBody } from '../..\\components\\comments\\comment-body.vue'
+export { default as CommentsCommentInput } from '../..\\components\\comments\\comment-input.vue'
+export { default as CommentsCommentSection } from '../..\\components\\comments\\comment-section.vue'
+export { default as CommentsComment } from '../..\\components\\comments\\comment.vue'
 
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {

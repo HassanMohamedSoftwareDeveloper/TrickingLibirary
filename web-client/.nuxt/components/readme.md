@@ -16,3 +16,7 @@ You can directly use them in pages and other components without the need to impo
 - `<ContentCreationSubmissionSteps>` | `<content-creation-submission-steps>` (components/content-creation/submission-steps.vue)
 - `<ContentCreationTrickSteps>` | `<content-creation-trick-steps>` (components/content-creation/trick-steps.vue)
 - `<ContentCreationShared>` | `<content-creation-shared>` (components/content-creation/_shared.js)
+- `<CommentsCommentBody>` | `<comments-comment-body>` (components/comments/comment-body.vue)
+- `<CommentsCommentInput>` | `<comments-comment-input>` (components/comments/comment-input.vue)
+- `<CommentsCommentSection>` | `<comments-comment-section>` (components/comments/comment-section.vue)
+- `<CommentsComment>` | `<comments-comment>` (components/comments/comment.vue)
