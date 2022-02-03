@@ -7,13 +7,15 @@ namespace TrickingLibirary.Api.Controllers;
 [ApiController]
 public class AuthController : ControllerBase
 {
+    #region Endpoints :
     [HttpGet("logout")]
     public async Task<IActionResult> Logout(string logoutId, [FromServices] SignInManager<IdentityUser> signInManager,
-        [FromServices] IIdentityServerInteractionService interactionService)
+   [FromServices] IIdentityServerInteractionService interactionService)
     {
         await signInManager.SignOutAsync();
         var logoutContext = await interactionService.GetLogoutContextAsync(logoutId);
         if (string.IsNullOrWhiteSpace(logoutContext.PostLogoutRedirectUri)) return BadRequest();
         return Redirect(logoutContext.PostLogoutRedirectUri);
-    }
+    } 
+    #endregion
 }
