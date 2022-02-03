@@ -11,6 +11,18 @@
   "VideoPlayer": {
     "description": "Auto imported from components/video-player.vue"
   },
+  "CommentsCommentBody": {
+    "description": "Auto imported from components/comments/comment-body.vue"
+  },
+  "CommentsCommentInput": {
+    "description": "Auto imported from components/comments/comment-input.vue"
+  },
+  "CommentsCommentSection": {
+    "description": "Auto imported from components/comments/comment-section.vue"
+  },
+  "CommentsComment": {
+    "description": "Auto imported from components/comments/comment.vue"
+  },
   "ContentCreationCategoryForm": {
     "description": "Auto imported from components/content-creation/category-form.vue"
   },
@@ -28,17 +40,5 @@
   },
   "ContentCreationShared": {
     "description": "Auto imported from components/content-creation/_shared.js"
-  },
-  "CommentsCommentBody": {
-    "description": "Auto imported from components/comments/comment-body.vue"
-  },
-  "CommentsCommentInput": {
-    "description": "Auto imported from components/comments/comment-input.vue"
-  },
-  "CommentsCommentSection": {
-    "description": "Auto imported from components/comments/comment-section.vue"
-  },
-  "CommentsComment": {
-    "description": "Auto imported from components/comments/comment.vue"
   }
 }

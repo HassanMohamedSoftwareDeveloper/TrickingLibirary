@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Authentication...</title>
+</head>
+
+<body>
+  <script src="/oidc/oidc-client.min.js"></script>
+  <script>
+    new Oidc.UserManager({
+      userStore: new Oidc.WebStorageStateStore({ store: window.localStorage }),
+      response_mode: 'query',
+    })
+      .signinRedirectCallback().then((user) => {
+        window.location = "/";
+      });
+  </script>
+</body>
+
+</html>

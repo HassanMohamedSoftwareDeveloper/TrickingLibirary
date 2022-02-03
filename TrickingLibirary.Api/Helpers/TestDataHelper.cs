@@ -104,7 +104,7 @@ public static class TestDataHelper
 
             var mod = new IdentityUser("mod");
             userManager.CreateAsync(mod, "password").GetAwaiter().GetResult();
-            userManager.AddClaimAsync(mod,new Claim(ClaimTypes.Role, 
+            userManager.AddClaimAsync(mod,new Claim(Tricking_LibiraryConstants.Claims.Role, 
                 Tricking_LibiraryConstants.Roles.Mod)).GetAwaiter().GetResult();
         }
     }

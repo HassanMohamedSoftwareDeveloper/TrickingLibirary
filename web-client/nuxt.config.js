@@ -1,8 +1,25 @@
 import colors from 'vuetify/es5/util/colors';
+import path from 'path';
+import fs from 'fs';
 
 export default {
   publicRuntimeConfig: {
-    api: process.env.API_URL
+    axios: {
+      baseURL: "https://localhost:44379/",
+      https: true
+    },
+  },
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: "http://localhost:52891/",
+      https: false
+    },
+  },
+  server: {
+    https: {
+      key: fs.readFileSync(path.relative(__dirname, "server.key")),
+      cert: fs.readFileSync(path.relative(__dirname, "server.cert"))
+    }
   },
   head: {
     titleTemplate: '%s - Tricking Libirary',
@@ -44,9 +61,7 @@ export default {
   modules: [
     '@nuxtjs/axios',
   ],
-  axios: {
-    baseURL: "http://localhost:52891"
-  },
+
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     theme: {

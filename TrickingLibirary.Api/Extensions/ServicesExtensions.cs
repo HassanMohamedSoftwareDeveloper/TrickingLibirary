@@ -65,13 +65,14 @@ public static class ServicesExtensions
 
         services.ConfigureApplicationCookie(config =>
         {
-            // add an instance of the patched manager to the options:
+            //// add an instance of the patched manager to the options:
             config.CookieManager = new ChunkingCookieManager();
 
             config.Cookie.HttpOnly = true;
             config.Cookie.SameSite = SameSiteMode.None;
             config.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             config.LoginPath = "/account/login";
+            config.LogoutPath = "/api/auth/logout";
         });
 
         var identityServerBuilder = services.AddIdentityServer();
@@ -83,10 +84,12 @@ public static class ServicesExtensions
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResource(Tricking_LibiraryConstants.IdentityResources.RoleScope,
+                new[]{Tricking_LibiraryConstants.Claims.Role }),
             });
             identityServerBuilder.AddInMemoryApiScopes(new ApiScope[]
             {
-                new ApiScope(IdentityServerConstants.LocalApi.ScopeName,new []{ ClaimTypes.Role})
+                new ApiScope(IdentityServerConstants.LocalApi.ScopeName,new []{ Tricking_LibiraryConstants.Claims.Role})
             });
 
             identityServerBuilder.AddInMemoryClients(new Client[]
@@ -95,15 +98,16 @@ public static class ServicesExtensions
                 {
                     ClientId="web-client",
                     AllowedGrantTypes=GrantTypes.Code,
-                    RedirectUris=new []{ "http://localhost:3000" },
-                    PostLogoutRedirectUris=new []{ "http://localhost:3000" },
-                    AllowedCorsOrigins=new []{ "http://localhost:3000" },
+                    RedirectUris=new []{ "https://localhost:3000/oidc/sign-in-callback.html" },
+                    PostLogoutRedirectUris=new []{ "https://localhost:3000" },
+                    AllowedCorsOrigins=new []{ "https://localhost:3000" },
 
                     AllowedScopes = new[]
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.LocalApi.ScopeName
+                        IdentityServerConstants.LocalApi.ScopeName,
+                        Tricking_LibiraryConstants.IdentityResources.RoleScope
                     },
 
                     RequirePkce=true,
@@ -126,7 +130,7 @@ public static class ServicesExtensions
                 var is4Policy = options.GetPolicy(IdentityServerConstants.LocalApi.PolicyName);
                 policy.Combine(is4Policy);
 
-                policy.RequireClaim(ClaimTypes.Role, Tricking_LibiraryConstants.Roles.Mod);
+                policy.RequireClaim(Tricking_LibiraryConstants.Claims.Role, Tricking_LibiraryConstants.Roles.Mod);
             });
         });
         return services;
