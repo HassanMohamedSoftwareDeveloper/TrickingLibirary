@@ -99,12 +99,12 @@ public static class TestDataHelper
             dbContext.SaveChanges();
 
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            var user = new IdentityUser("test");
+            var user = new IdentityUser("test@test.com");
             userManager.CreateAsync(user, "password").GetAwaiter().GetResult();
 
-            var mod = new IdentityUser("mod");
+            var mod = new IdentityUser("mod@test.com");
             userManager.CreateAsync(mod, "password").GetAwaiter().GetResult();
-            userManager.AddClaimAsync(mod,new Claim(Tricking_LibiraryConstants.Claims.Role, 
+            userManager.AddClaimAsync(mod, new Claim(Tricking_LibiraryConstants.Claims.Role,
                 Tricking_LibiraryConstants.Roles.Mod)).GetAwaiter().GetResult();
         }
     }

@@ -1,0 +1,30 @@
+﻿@page
+@model TrickingLibirary.Api.Pages.Account.Register
+@{
+    ViewData["Title"] = "Register";
+    Layout = "_AuthLayout";
+}
+
+<form method="post">
+    <h3>Register</h3>
+    <input asp-for="Form.ReturnUrl" type="hidden" value="@Model.Form.ReturnUrl" />
+    <div class="form-group">
+        <label asp-for="Form.Email" class="label-control"></label>
+        <input asp-for="Form.Email" class="form-control" />
+        <span asp-validation-for="Form.Email" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Form.Password" class="label-control"></label>
+        <input asp-for="Form.Password" class="form-control"/>
+        <span asp-validation-for="Form.Password" class="error"></span>
+    </div>
+       <div class="form-group">
+        <label asp-for="Form.ConfirmPassword" class="label-control"></label>
+        <input asp-for="Form.ConfirmPassword" class="form-control"/>
+        <span asp-validation-for="Form.ConfirmPassword" class="error"></span>
+    </div>
+    <div class="form-group" >
+        <button class="btn btn-primary" type="submit">Sign Up</button>
+        <a asp-page="Login" asp-route-returnUrl="@Model.Form.ReturnUrl">Back to Login</a>
+    </div>
+</form>

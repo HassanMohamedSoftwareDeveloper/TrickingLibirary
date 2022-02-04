@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TrikingLibirary.Api</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        a {
+            font-family: Roboto,sans-serif !important;
+        }
+
+        body {
+            --bs-dark-rgb: 33,37,41;
+            --bs-bg-opacity: 1;
+            background-color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity)) !important;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 1px 8px 1px #FAFAFA;
+        }
+
+        .form-group {
+            margin-bottom: .5rem !important;
+            width: 100% !important;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .form-group >
+    </style>
+</head>
+<body>
+    @RenderBody()
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
