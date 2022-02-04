@@ -24,6 +24,7 @@ public class AppDbContext : DbContext, IDbContext
     public DbSet<ModerationItem> ModerationItems { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Review> Reviews { get; set; }
+    public DbSet<User> Users { get; set; }
     #endregion
     #region Methods :
     protected override void OnModelCreating(ModelBuilder modelBuilder)

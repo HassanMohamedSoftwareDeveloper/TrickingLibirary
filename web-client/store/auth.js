@@ -24,11 +24,24 @@ export const mutations = {
 
 export const actions = {
   initialize({ commit }) {
-    return this.$auth.getUser().then((user) => {
-      if (user) {
-        commit('saveUser', { user })
-        this.$axios.setToken(`Bearer ${user.access_token}`);
-      }
-    }).finally(() => commit('finish'));
+    return this.$auth.querySessionStatus()
+      .then(sessionStatus => {
+        if (sessionStatus) {
+          return this.$auth.getUser()
+        }
+      })
+      .then((user) => {
+        if (user) {
+          commit('saveUser', { user })
+          this.$axios.setToken(`Bearer ${user.access_token}`);
+        }
+      })
+      .catch(error => {
+        console.log(error.message);
+        if (error.message === 'login_required') {
+          return this.$auth.removeUser();
+        }
+      })
+      .finally(() => commit('finish'));
   }
 }
