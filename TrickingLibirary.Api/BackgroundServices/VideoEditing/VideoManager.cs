@@ -7,8 +7,10 @@ public class VideoManager
     private const string TempPrifex = "temp_";
     private const string ConvertedPrifex = "c";
     private const string ThumbnailPrifex = "t";
+    private const string ProfilePrifex = "p";
     private const string ConvertedVideoExtension = ".mp4";
     private const string ThumbnailExtension = ".jpg";
+    private const string ProfileImageExtension = ".jpg";
     #endregion
     #region Fields :
     private readonly IWebHostEnvironment env;
@@ -33,9 +35,10 @@ public class VideoManager
         if (CheckTemporaryFileIsExist(fileName)) 
             File.Delete(GenerateTemporarySavePath(fileName));
     }
-    public string GenerateDevVideoPath(string fileName) => env.IsDevelopment() ? Path.Combine(WorkingDirectoryPath, fileName) : null;
+    public string GenerateSavePath(string fileName) => env.IsDevelopment() ? Path.Combine(WorkingDirectoryPath, fileName) : null;
     public string GenerateConvertedFileName() => string.Concat(ConvertedPrifex, DateTime.Now.Ticks, ConvertedVideoExtension);
     public string GenerateThumbnailFileName() => string.Concat(ThumbnailPrifex, DateTime.Now.Ticks, ThumbnailExtension);
+    public string GenerateProfileFileName() => string.Concat(ProfilePrifex, DateTime.Now.Ticks, ProfileImageExtension);
 
     public string GenerateTemporarySavePath(string fileName) => Path.Combine(WorkingDirectoryPath, fileName);
     public async Task<string> SaveTemporaryVideo(IFormFile video)
@@ -48,9 +51,5 @@ public class VideoManager
         }
         return fileName;
     }
-
-    #endregion
-    #region Helpers :
-    private string GetMime(string fileName) => fileName.Split('.').Last();
     #endregion
 }

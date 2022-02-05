@@ -23,7 +23,7 @@ public class VideosController : ControllerBase
     [HttpGet("{video}")]
     public IActionResult GetVideo(string video)
     {
-        var savePath = videoManager.GenerateDevVideoPath(video);
+        var savePath = videoManager.GenerateSavePath(video);
         if (string.IsNullOrWhiteSpace(savePath)) return BadRequest();
         return new FileStreamResult(new FileStream(savePath, FileMode.Open, FileAccess.ReadWrite), MediaTypeHeaderValue.Parse("video/*"));
     }

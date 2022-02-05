@@ -1,10 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
+using TrickingLibirary.Api.BackgroundServices.VideoEditing;
 using TrickingLibirary.Api.Helpers;
 using TrickingLibirary.Domain.Entities;
 using TrickingLibirary.Domain.Interfaces;
+
+
 namespace TrickingLibirary.Api.Controllers;
+
 [Authorize(Tricking_LibiraryConstants.Policies.User)]
 public class UserController : ApiController
 {
@@ -41,6 +48,25 @@ public class UserController : ApiController
     [HttpGet("{id}/submissions")]
     public Task<List<Submission>> GetUserSubmissions(string id)
     => dbContext.Submissions.Include(x => x.Video).Where(x => x.UserId.Equals(id)).ToListAsync();
+
+    [HttpPut("me/image")]
+    public async Task<IActionResult> UpdateProfileImage(IFormFile image, [FromServices] VideoManager videoManager)
+    {
+        if (image is null) return BadRequest();
+        var userId = UserId;
+        var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Id.Equals(userId));
+        if (user is null) return NoContent();
+        string fileName = videoManager.GenerateProfileFileName();
+        await using (var stream = System.IO.File.Create(videoManager.GenerateSavePath(fileName)))
+        using (Image imageProcessor = await Image.LoadAsync(image.OpenReadStream()))
+        {
+            imageProcessor.Mutate(x => x.Resize(48, 48));
+            await imageProcessor.SaveAsync(stream,new JpegEncoder());
+        }
+        user.Image = fileName;
+        await dbContext.SaveChangesAsync();
+        return Ok(user);
+    }
 
     #endregion
 }

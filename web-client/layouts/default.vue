@@ -21,21 +21,34 @@
         <HeaderMenu></HeaderMenu>
       </v-skeleton-loader>
 
-      <v-skeleton-loader class="mx-1"  :loading="loading" transition="fade-transition" type="button">
+      <v-skeleton-loader
+        class="mx-1"
+        :loading="loading"
+        transition="fade-transition"
+        type="button"
+      >
         <v-menu offset-y v-if="authenticated">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon  v-bind="attrs" v-on="on" depressed>
-            <v-icon >mdi-account-circle</v-icon></v-btn>
+            <v-btn icon v-bind="attrs" v-on="on" depressed>
+              <v-avatar size="36">
+                <img
+                  v-if="profile.image"
+                  :src="`http://localhost:52891/api/videos/${profile.image}`"
+                  alt="Profile Image"
+                />
+                <v-icon v-else>mdi-account-circle</v-icon>
+              </v-avatar>
+            </v-btn>
           </template>
           <v-list>
             <v-list-item @click="$router.push('/profile')">
               <v-list-item-title>
-              <v-icon left>mdi-account-circle</v-icon>Profile
+                <v-icon left>mdi-account-circle</v-icon>Profile
               </v-list-item-title>
             </v-list-item>
             <v-list-item @click="$auth.signoutRedirect()">
               <v-list-item-title>
-              <v-icon left>mdi-logout</v-icon>Logout
+                <v-icon left>mdi-logout</v-icon>Logout
               </v-list-item-title>
             </v-list-item>
           </v-list>
@@ -46,7 +59,11 @@
       </v-skeleton-loader>
     </v-app-bar>
     <v-skeleton-loader
-      class="mx-1" :loading="loading"  transition="fade-transition" type="button">
+      class="mx-1"
+      :loading="loading"
+      transition="fade-transition"
+      type="button"
+    >
       <content-creation-dialog></content-creation-dialog>
     </v-skeleton-loader>
     <v-main>
@@ -67,7 +84,7 @@ export default {
     HeaderMenu,
   },
   computed: {
-    ...mapState("auth", ["loading"]),
+    ...mapState("auth", ["loading", "profile"]),
     ...mapGetters("auth", ["authenticated", "moderator"]),
   },
 };
