@@ -12,6 +12,17 @@ public static class TestDataHelper
         if (_env.IsDevelopment())
         {
             using var scope = serviceProvider.CreateScope();
+
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var testUser = new IdentityUser("test") { Email = "test@test.com" };
+            userManager.CreateAsync(testUser, "password").GetAwaiter().GetResult();
+
+            var mod = new IdentityUser("mod") { Email = "mod@test.com" };
+            userManager.CreateAsync(mod, "password").GetAwaiter().GetResult();
+            userManager.AddClaimAsync(mod, new Claim(Tricking_LibiraryConstants.Claims.Role,
+                Tricking_LibiraryConstants.Roles.Mod)).GetAwaiter().GetResult();
+
+
             var dbContext = scope.ServiceProvider.GetRequiredService<IDbContext>();
             dbContext.Difficulties.AddRange(
                 new Domain.Entities.Difficulty { Id = "easy", Name = "Easy", Description = "Easy Test" },
@@ -74,6 +85,8 @@ public static class TestDataHelper
                         ThumbLink = "one.jpg",
                     },
                     VideoProcessed = true,
+                    UserId = testUser.Id,
+
                 },
                 new Domain.Entities.Submission
                 {
@@ -85,6 +98,7 @@ public static class TestDataHelper
                         ThumbLink = "two.jpg",
                     },
                     VideoProcessed = true,
+                    UserId = testUser.Id,
                 }
                 );
 
@@ -98,14 +112,7 @@ public static class TestDataHelper
 
             dbContext.SaveChanges();
 
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            var user = new IdentityUser("test@test.com");
-            userManager.CreateAsync(user, "password").GetAwaiter().GetResult();
 
-            var mod = new IdentityUser("mod@test.com");
-            userManager.CreateAsync(mod, "password").GetAwaiter().GetResult();
-            userManager.AddClaimAsync(mod, new Claim(Tricking_LibiraryConstants.Claims.Role,
-                Tricking_LibiraryConstants.Roles.Mod)).GetAwaiter().GetResult();
         }
     }
 }

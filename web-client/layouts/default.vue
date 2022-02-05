@@ -20,29 +20,33 @@
       >
         <HeaderMenu></HeaderMenu>
       </v-skeleton-loader>
-      <v-skeleton-loader
-        class="mx-1"
-        :loading="loading"
-        transition="fade-transition"
-        type="button"
-      >
-        <v-btn depressed outlined v-if="authenticated">
-          <v-icon left>mdi-account-circle</v-icon>Profile
-        </v-btn>
+
+      <v-skeleton-loader class="mx-1"  :loading="loading" transition="fade-transition" type="button">
+        <v-menu offset-y v-if="authenticated">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon  v-bind="attrs" v-on="on" depressed>
+            <v-icon >mdi-account-circle</v-icon></v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="$router.push('/profile')">
+              <v-list-item-title>
+              <v-icon left>mdi-account-circle</v-icon>Profile
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="$auth.signoutRedirect()">
+              <v-list-item-title>
+              <v-icon left>mdi-logout</v-icon>Logout
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
         <v-btn @click="$auth.signinRedirect()" depressed outlined v-else>
-          <v-icon left>mdi-account-circle-outline</v-icon>Sign In
+          <v-icon left>mdi-account-circle-outline</v-icon>Login
         </v-btn>
       </v-skeleton-loader>
-      <v-btn @click="$auth.signoutRedirect()" depressed v-if="authenticated">
-        Sign Out
-      </v-btn>
     </v-app-bar>
     <v-skeleton-loader
-      class="mx-1"
-      :loading="loading"
-      transition="fade-transition"
-      type="button"
-    >
+      class="mx-1" :loading="loading"  transition="fade-transition" type="button">
       <content-creation-dialog></content-creation-dialog>
     </v-skeleton-loader>
     <v-main>
@@ -58,7 +62,10 @@ import ContentCreationDialog from "../components/content-creation/content-creati
 import HeaderMenu from "../components/header-menu.vue";
 import { mapState, mapGetters } from "vuex";
 export default {
-  components: { ContentCreationDialog, HeaderMenu },
+  components: {
+    ContentCreationDialog,
+    HeaderMenu,
+  },
   computed: {
     ...mapState("auth", ["loading"]),
     ...mapGetters("auth", ["authenticated", "moderator"]),

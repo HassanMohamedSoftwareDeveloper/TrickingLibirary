@@ -5,6 +5,7 @@ import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
 const _58831c8d = () => interopDefault(import('..\\pages\\moderation\\index.vue' /* webpackChunkName: "pages/moderation/index" */))
+const _3a052fb8 = () => interopDefault(import('..\\pages\\profile\\index.vue' /* webpackChunkName: "pages/profile/index" */))
 const _9dee7300 = () => interopDefault(import('..\\pages\\category\\_category.vue' /* webpackChunkName: "pages/category/_category" */))
 const _0a2820e0 = () => interopDefault(import('..\\pages\\difficulty\\_difficulty.vue' /* webpackChunkName: "pages/difficulty/_difficulty" */))
 const _4ddd6ffa = () => interopDefault(import('..\\pages\\tricks\\_trick.vue' /* webpackChunkName: "pages/tricks/_trick" */))
@@ -26,6 +27,10 @@ export const routerOptions = {
     path: "/moderation",
     component: _58831c8d,
     name: "moderation"
+  }, {
+    path: "/profile",
+    component: _3a052fb8,
+    name: "profile"
   }, {
     path: "/category/:category?",
     component: _9dee7300,

@@ -1,14 +1,14 @@
 ﻿using System.Threading.Channels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrickingLibirary.Api.BackgroundServices.VideoEditing;
 using TrickingLibirary.Api.Form;
+using TrickingLibirary.Api.Helpers;
 using TrickingLibirary.Domain.Entities;
 using TrickingLibirary.Domain.Interfaces;
 
 namespace TrickingLibirary.Api.Controllers;
-[Route("api/[controller]")]
-[ApiController]
-public class SubmissionsController : ControllerBase
+public class SubmissionsController : ApiController
 {
     #region Fields :
     public static readonly List<Trick> Tricks = new List<Trick>();
@@ -21,10 +21,11 @@ public class SubmissionsController : ControllerBase
         this.dbContext = dbContext;
     }
     #endregion
+    #region Endpoints :
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok(dbContext.Submissions.Where(x=>x.VideoProcessed).ToList());
+        return Ok(dbContext.Submissions.Where(x => x.VideoProcessed).ToList());
     }
     [HttpGet("{id}")]
     public IActionResult Get(int id)
@@ -32,17 +33,19 @@ public class SubmissionsController : ControllerBase
         return Ok(dbContext.Submissions.FirstOrDefault(x => x.Id.Equals(id)));
     }
     [HttpPost]
+    [Authorize(Tricking_LibiraryConstants.Policies.User)]
     public async Task<IActionResult> Create(
-        [FromServices] Channel<EditVideoMessage> channel, 
-        [FromServices]VideoManager videoManager,
+        [FromServices] Channel<EditVideoMessage> channel,
+        [FromServices] VideoManager videoManager,
         [FromBody] SubmissionForm submissionForm)
     {
         if (videoManager.CheckTemporaryFileIsExist(submissionForm.Video) is false) return BadRequest();
         Submission submission = new()
         {
-            TrickId=submissionForm.TrickId,
-            Description=submissionForm.Description,
+            TrickId = submissionForm.TrickId,
+            Description = submissionForm.Description,
             VideoProcessed = false,
+            UserId = UserId
         };
         dbContext.Submissions.Add(submission);
         await dbContext.SaveChangesAsync();
@@ -70,4 +73,5 @@ public class SubmissionsController : ControllerBase
         await dbContext.SaveChangesAsync();
         return Ok();
     }
-}
+} 
+#endregion

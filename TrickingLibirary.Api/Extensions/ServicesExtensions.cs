@@ -10,6 +10,7 @@ using IdentityServer4;
 using System.Security.Claims;
 using TrickingLibirary.Api.Helpers;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using IdentityModel;
 
 namespace TrickingLibirary.Api.Extensions;
 
@@ -47,6 +48,7 @@ public static class ServicesExtensions
 
         services.AddIdentity<IdentityUser, IdentityRole>(options =>
         {
+            options.User.RequireUniqueEmail=true;
             if (env.IsDevelopment())
             {
                 options.Password.RequiredLength = 4;
@@ -89,7 +91,9 @@ public static class ServicesExtensions
             });
             identityServerBuilder.AddInMemoryApiScopes(new ApiScope[]
             {
-                new ApiScope(IdentityServerConstants.LocalApi.ScopeName,new []{ Tricking_LibiraryConstants.Claims.Role})
+                new ApiScope(IdentityServerConstants.LocalApi.ScopeName,new []{ 
+                    JwtClaimTypes.PreferredUserName,
+                    Tricking_LibiraryConstants.Claims.Role})
             });
 
             identityServerBuilder.AddInMemoryClients(new Client[]

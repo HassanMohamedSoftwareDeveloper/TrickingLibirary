@@ -18,7 +18,7 @@ namespace TrickingLibirary.Api.Pages.Account
             [FromServices] SignInManager<IdentityUser> signInManager)
         {
             if (ModelState.IsValid is false) return Page();
-            var user = new IdentityUser(Form.Email);
+            var user = new IdentityUser(Form.Username) { Email = Form.Email };
             var identityResult = await userManager.CreateAsync(user, Form.Password);
             if (identityResult.Succeeded)
             {
@@ -34,6 +34,8 @@ namespace TrickingLibirary.Api.Pages.Account
             [Required]
             [DataType(DataType.EmailAddress)]
             public string Email { get; set; }
+            [Required]
+            public string Username { get; set; }
             [DisplayName("Password")]
             [Required]
             [DataType(DataType.Password)]

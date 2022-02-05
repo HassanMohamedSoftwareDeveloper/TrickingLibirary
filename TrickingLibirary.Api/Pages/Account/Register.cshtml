@@ -8,21 +8,26 @@
 <form method="post">
     <input asp-for="Form.ReturnUrl" type="hidden" value="@Model.Form.ReturnUrl" />
     <div class="form-group">
+        <label asp-for="Form.Username" class="label-control"></label>
+        <input asp-for="Form.Username" class="form-control" />
+        <span asp-validation-for="Form.Username" class="error"></span>
+    </div>
+    <div class="form-group">
         <label asp-for="Form.Email" class="label-control"></label>
         <input asp-for="Form.Email" class="form-control" />
         <span asp-validation-for="Form.Email" class="error"></span>
     </div>
     <div class="form-group">
         <label asp-for="Form.Password" class="label-control"></label>
-        <input asp-for="Form.Password" class="form-control"/>
+        <input asp-for="Form.Password" class="form-control" />
         <span asp-validation-for="Form.Password" class="error"></span>
     </div>
-       <div class="form-group">
+    <div class="form-group">
         <label asp-for="Form.ConfirmPassword" class="label-control"></label>
-        <input asp-for="Form.ConfirmPassword" class="form-control"/>
+        <input asp-for="Form.ConfirmPassword" class="form-control" />
         <span asp-validation-for="Form.ConfirmPassword" class="error"></span>
     </div>
-    <div class="form-group flex-row" >
+    <div class="form-group flex-row">
         <button type="submit">Register</button>
     </div>
     <hr />
