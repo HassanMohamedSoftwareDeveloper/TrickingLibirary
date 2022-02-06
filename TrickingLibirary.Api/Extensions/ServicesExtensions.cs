@@ -1,16 +1,16 @@
 ﻿using System.Threading.Channels;
+using IdentityModel;
+using IdentityServer4;
+using IdentityServer4.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TrickingLibirary.Api.BackgroundServices.VideoEditing;
+using TrickingLibirary.Api.Helpers;
+using TrickingLibirary.Api.Settings;
 using TrickingLibirary.Domain.Interfaces;
 using TrickingLibirary.Infrastructure.Data;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
-using IdentityServer4.Models;
-using IdentityServer4;
-using System.Security.Claims;
-using TrickingLibirary.Api.Helpers;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using IdentityModel;
 
 namespace TrickingLibirary.Api.Extensions;
 
@@ -27,18 +27,28 @@ public static class ServicesExtensions
           ));
         return services;
     }
-
     public static IServiceCollection RegisterDatabase(this IServiceCollection services)
     {
         services.AddDbContext<IDbContext, AppDbContext>(options => options.UseInMemoryDatabase("Dev"));
         return services;
     }
-
     public static IServiceCollection RegisterVideoManagerServices(this IServiceCollection services)
     {
         services.AddHostedService<VideoEditingBackgroundService>();
         services.AddSingleton(_ => Channel.CreateUnbounded<EditVideoMessage>());
-        services.AddSingleton<VideoManager>();
+        return services;
+    }
+    public static IServiceCollection RegisterFileManager(this IServiceCollection services, IConfiguration configuration)
+    {
+        var settingsSection = configuration.GetSection(nameof(FileSettings));
+        var settings = settingsSection.Get<FileSettings>();
+        services.Configure<FileSettings>(settingsSection);
+        if (settings.Provider.Equals(Tricking_LibiraryConstants.Providers.Local))
+            services.AddSingleton<IFileManager, FileManagerLocal>();
+        else if (settings.Provider.Equals(Tricking_LibiraryConstants.Providers.S3))
+            throw new NotImplementedException();
+        else
+            throw new Exception($"Invalid File Manager Provider {settings.Provider}");
         return services;
     }
     public static IServiceCollection RegisterIdentityServices(this IServiceCollection services, IWebHostEnvironment env)
@@ -48,7 +58,7 @@ public static class ServicesExtensions
 
         services.AddIdentity<IdentityUser, IdentityRole>(options =>
         {
-            options.User.RequireUniqueEmail=true;
+            options.User.RequireUniqueEmail = true;
             if (env.IsDevelopment())
             {
                 options.Password.RequiredLength = 4;
@@ -91,7 +101,7 @@ public static class ServicesExtensions
             });
             identityServerBuilder.AddInMemoryApiScopes(new ApiScope[]
             {
-                new ApiScope(IdentityServerConstants.LocalApi.ScopeName,new []{ 
+                new ApiScope(IdentityServerConstants.LocalApi.ScopeName,new []{
                     JwtClaimTypes.PreferredUserName,
                     Tricking_LibiraryConstants.Claims.Role})
             });

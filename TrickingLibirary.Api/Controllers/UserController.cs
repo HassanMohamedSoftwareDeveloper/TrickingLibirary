@@ -50,23 +50,23 @@ public class UserController : ApiController
     => dbContext.Submissions.Include(x => x.Video).Where(x => x.UserId.Equals(id)).ToListAsync();
 
     [HttpPut("me/image")]
-    public async Task<IActionResult> UpdateProfileImage(IFormFile image, [FromServices] VideoManager videoManager)
+    public async Task<IActionResult> UpdateProfileImage(IFormFile image, [FromServices] IFileManager fileManager)
     {
         if (image is null) return BadRequest();
         var userId = UserId;
         var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Id.Equals(userId));
         if (user is null) return NoContent();
-        string fileName = videoManager.GenerateProfileFileName();
-        await using (var stream = System.IO.File.Create(videoManager.GenerateSavePath(fileName)))
+        string fileName = Tricking_LibiraryConstants.File.Actions.GenerateFileName(Tricking_LibiraryConstants.File.Prefixes.ProfilePrifex,
+            Tricking_LibiraryConstants.File.Mimes.ImageMime);
+        await using (var stream = System.IO.File.Create(fileManager.GeneratePath(Tricking_LibiraryConstants.File.FileType.Image,fileName)))
         using (Image imageProcessor = await Image.LoadAsync(image.OpenReadStream()))
         {
             imageProcessor.Mutate(x => x.Resize(48, 48));
             await imageProcessor.SaveAsync(stream,new JpegEncoder());
         }
-        user.Image = fileName;
+        user.Image =fileManager.GetFileUrl(fileName,Tricking_LibiraryConstants.File.FileType.Image);
         await dbContext.SaveChangesAsync();
         return Ok(user);
     }
-
     #endregion
 }

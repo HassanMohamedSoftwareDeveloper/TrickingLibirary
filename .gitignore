@@ -351,3 +351,5 @@ MigrationBackup/
 
 # ignore video files
 *.mp4
+# ignore image files
+**/uploadedfiles/images/*.jpg

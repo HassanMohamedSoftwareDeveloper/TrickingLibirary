@@ -33,7 +33,7 @@
               <v-avatar size="36">
                 <img
                   v-if="profile.image"
-                  :src="`http://localhost:52891/api/videos/${profile.image}`"
+                  :src="profile.image"
                   alt="Profile Image"
                 />
                 <v-icon v-else>mdi-account-circle</v-icon>

@@ -7,7 +7,8 @@ builder.Services
     .RegisterDatabase()
     .RegisterIdentityServices(builder.Environment)
     .RegisterWebServices()
-    .RegisterVideoManagerServices();
+    .RegisterVideoManagerServices()
+    .RegisterFileManager(builder.Configuration);
 
 var app = builder.Build();
 

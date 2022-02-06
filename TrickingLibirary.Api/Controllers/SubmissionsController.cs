@@ -21,6 +21,7 @@ public class SubmissionsController : ApiController
         this.dbContext = dbContext;
     }
     #endregion
+
     #region Endpoints :
     [HttpGet]
     public IActionResult Get()
@@ -36,10 +37,12 @@ public class SubmissionsController : ApiController
     [Authorize(Tricking_LibiraryConstants.Policies.User)]
     public async Task<IActionResult> Create(
         [FromServices] Channel<EditVideoMessage> channel,
-        [FromServices] VideoManager videoManager,
+        [FromServices] IFileManager fileManager,
         [FromBody] SubmissionForm submissionForm)
     {
-        if (videoManager.CheckTemporaryFileIsExist(submissionForm.Video) is false) return BadRequest();
+        if (fileManager.CheckFileIsExist(
+            fileManager.GeneratePath(Tricking_LibiraryConstants.File.FileType.Video,submissionForm.Video)) 
+            is false) return BadRequest();
         Submission submission = new()
         {
             TrickId = submissionForm.TrickId,

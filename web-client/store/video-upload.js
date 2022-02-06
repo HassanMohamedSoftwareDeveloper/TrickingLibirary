@@ -33,7 +33,7 @@ export const actions = {
 
   startVideoUpload({ commit, dispatch }, { form }) {
     const source = this.$axios.CancelToken.source();
-    const uploadPromise = this.$axios.post("/api/videos", form, {
+    const uploadPromise = this.$axios.post("/api/files", form, {
       progress: false,
       cancelToken: source.token
     })
@@ -55,7 +55,7 @@ export const actions = {
       if (state.uploadCompleted) {
         commit('hide');
         const video = await state.uploadPromise;
-        await this.$axios.delete("/api/videos/" + video);
+        await this.$axios.delete("/api/files/" + video);
       } else {
         state.uploadCancelSource.cancel();
       }

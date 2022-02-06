@@ -28,7 +28,7 @@
               >
                 <v-icon>mdi-account-edit</v-icon>
               </v-btn>
-              <img v-else-if="profile.image"  :src="`http://localhost:52891/api/videos/${profile.image}`" alt="Profile Image"/>
+              <img v-else-if="profile.image"  :src="profile.image" alt="Profile Image"/>
               <v-icon v-else>mdi-account</v-icon>
             </v-avatar>
           </v-hover>
