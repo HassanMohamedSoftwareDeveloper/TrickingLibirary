@@ -8,6 +8,8 @@ public class TrickCategoryConfiguration : IEntityTypeConfiguration<TrickCategory
 {
     public void Configure(EntityTypeBuilder<TrickCategory> builder)
     {
-        builder.HasKey(x => new { x.CategoryId, x.TrickId });
+        builder.HasKey(x => new { x.CategoryId,x.CategoryVersion, x.TrickId ,x.TrickVersion});
+
+        
     }
 }

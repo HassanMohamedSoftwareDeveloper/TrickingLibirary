@@ -1,7 +1,10 @@
-﻿namespace TrickingLibirary.Domain.Entities;
+﻿using TrickingLibirary.Domain.Entities.Abstractions;
 
-public class Video:BaseModel<int>
+namespace TrickingLibirary.Domain.Entities;
+
+public class Video:TemporalModel
 {
+    public int Id { get; set; }
     public string VideoLink { get; set; }
     public string ThumbLink { get; set; }
 }

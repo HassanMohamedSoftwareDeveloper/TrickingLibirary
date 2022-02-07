@@ -1,9 +1,5 @@
 <template>
   <div>
-    <div>
-      <v-btn @click="api('test')">Api Test Auth</v-btn>
-      <v-btn @click="api('mod')">Api Mod Auth</v-btn>
-    </div>
     <div v-for="s in sections">
       <div class="d-flex flex-column align-center">
         <p class="text-h5">{{ s.title }}</p>
@@ -11,8 +7,8 @@
           <v-btn
             class="mx-1"
             v-for="item in s.collection"
-            :key="`${item.title}-${item.id}`"
-            :to="s.routeFactory(item.id)"
+            :key="`${item.title}-${item.slug}`"
+            :to="s.routeFactory(item.slug)"
           >
             {{ item.name }}
           </v-btn>

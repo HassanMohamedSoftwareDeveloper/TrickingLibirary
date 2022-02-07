@@ -30,6 +30,7 @@ public static class ServicesExtensions
     public static IServiceCollection RegisterDatabase(this IServiceCollection services)
     {
         services.AddDbContext<IDbContext, AppDbContext>(options => options.UseInMemoryDatabase("Dev"));
+        services.AddScoped<VersionMigrationContext>();
         return services;
     }
     public static IServiceCollection RegisterVideoManagerServices(this IServiceCollection services)

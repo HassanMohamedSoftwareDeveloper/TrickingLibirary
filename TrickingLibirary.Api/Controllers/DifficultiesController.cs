@@ -26,7 +26,7 @@ public class DifficultiesController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult Get(string id)
     {
-        return Ok(dbContext.Difficulties.FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase)));
+        return Ok(dbContext.Difficulties.FirstOrDefault(x => x.Slug.Equals(id, StringComparison.InvariantCultureIgnoreCase)));
     }
     [HttpGet("{id}/tricks")]
     public IActionResult ListDifficultyTricks(string id)
@@ -37,7 +37,7 @@ public class DifficultiesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Difficulty difficulty)
     {
-        difficulty.Id = difficulty.Name.Replace(".", "-").ToLowerInvariant();
+        difficulty.Slug = difficulty.Name.Replace(".", "-").ToLowerInvariant();
         dbContext.Difficulties.Add(difficulty);
         await dbContext.SaveChangesAsync();
         return Ok(difficulty);

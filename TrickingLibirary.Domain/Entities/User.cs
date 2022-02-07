@@ -1,7 +1,10 @@
-﻿namespace TrickingLibirary.Domain.Entities;
+﻿using TrickingLibirary.Domain.Entities.Abstractions;
 
-public class User : BaseModel<string>
+namespace TrickingLibirary.Domain.Entities;
+
+public class User : TemporalModel
 {
+    public string Id { get; set; }
     public string Username { get; set; }
     public string Image { get; set; }
     public IList<Submission> Submissions { get; set; } = new List<Submission>();

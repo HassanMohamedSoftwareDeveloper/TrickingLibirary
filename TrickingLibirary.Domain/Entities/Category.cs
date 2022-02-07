@@ -1,6 +1,8 @@
-﻿namespace TrickingLibirary.Domain.Entities;
+﻿using TrickingLibirary.Domain.Entities.Abstractions;
 
-public class Category:BaseModel<string>
+namespace TrickingLibirary.Domain.Entities;
+
+public class Category:SlugModel
 {
     public string Name { get; set; }
     public string Description { get; set; }

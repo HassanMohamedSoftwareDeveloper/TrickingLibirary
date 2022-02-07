@@ -9,7 +9,7 @@ public static class TrickViewModels
     public static Expression<Func<Trick, object>> Projection =>
         trick => new
         {
-            trick.Id,
+            trick.Slug,
             trick.Name,
             trick.Description,
             trick.Difficulty,

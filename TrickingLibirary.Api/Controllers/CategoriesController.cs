@@ -27,7 +27,7 @@ public class CategoriesController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult Get(string id)
     {
-        return Ok(dbContext.Categories.FirstOrDefault(x => x.Id.Equals(id, StringComparison.InvariantCultureIgnoreCase)));
+        return Ok(dbContext.Categories.FirstOrDefault(x => x.Slug.Equals(id, StringComparison.InvariantCultureIgnoreCase)));
     }
     [HttpGet("{id}/tricks")]
     public IActionResult ListCategoryTricks(string id)
@@ -40,7 +40,7 @@ public class CategoriesController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] Category category)
     {
-        category.Id = category.Name.Replace(".", "-").ToLowerInvariant();
+        category.Slug = category.Name.Replace(".", "-").ToLowerInvariant();
         dbContext.Categories.Add(category);
         await dbContext.SaveChangesAsync();
         return Ok(category);

@@ -25,19 +25,21 @@ public static class TestDataHelper
 
             var dbContext = scope.ServiceProvider.GetRequiredService<IDbContext>();
             dbContext.Difficulties.AddRange(
-                new Domain.Entities.Difficulty { Id = "easy", Name = "Easy", Description = "Easy Test" },
-                new Domain.Entities.Difficulty { Id = "medium", Name = "Medium", Description = "Medium Test" },
-                new Domain.Entities.Difficulty { Id = "hard", Name = "Hard", Description = "Hard Test" });
+                new Domain.Entities.Difficulty { Slug = "easy",Version=1, Active=true,Name = "Easy", Description = "Easy Test" },
+                new Domain.Entities.Difficulty { Slug = "medium", Version = 1, Active = true, Name = "Medium", Description = "Medium Test" },
+                new Domain.Entities.Difficulty { Slug = "hard", Version = 1, Active = true, Name = "Hard", Description = "Hard Test" });
 
             dbContext.Categories.AddRange(
-               new Domain.Entities.Category { Id = "kick", Name = "Kick", Description = "Kick Test" },
-               new Domain.Entities.Category { Id = "flip", Name = "Flip", Description = "Flip Test" },
-               new Domain.Entities.Category { Id = "transition", Name = "Transition", Description = "Transition Test" });
+               new Domain.Entities.Category { Slug = "kick", Version=1, Active = true, Name = "Kick", Description = "Kick Test" },
+               new Domain.Entities.Category { Slug = "flip", Version = 1, Active = true, Name = "Flip", Description = "Flip Test" },
+               new Domain.Entities.Category { Slug = "transition", Version = 1, Active = true, Name = "Transition", Description = "Transition Test" });
 
             dbContext.Tricks.AddRange(
                 new Domain.Entities.Trick
                 {
-                    Id = "backwards-roll",
+                    Slug = "backwards-roll",
+                    Version = 1,
+                    Active = true,
                     Name = "Backwards Roll",
                     Description = "This is a test backwards roll",
                     Difficulty = "easy",
@@ -48,7 +50,9 @@ public static class TestDataHelper
                 },
                 new Domain.Entities.Trick
                 {
-                    Id = "forwards-roll",
+                    Slug = "forwards-roll",
+                    Version = 1,
+                    Active = true,
                     Name = "Forwards Roll",
                     Description = "This is a test forwards roll",
                     Difficulty = "easy",
@@ -59,7 +63,9 @@ public static class TestDataHelper
                 },
                 new Domain.Entities.Trick
                 {
-                    Id = "back-flip",
+                    Slug = "back-flip",
+                    Version = 1,
+                    Active = true,
                     Name = "Back Flip",
                     Description = "This is a test back flip",
                     Difficulty = "medium",

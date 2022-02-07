@@ -5,9 +5,9 @@
         <v-card
           class="mb-3"
           v-for="s in submissions"
-          :key="`${trick.id}-${s.id}`"
+          :key="`${trick.slug}-${s.id}`"
         >
-          <video-player :video="s.video" />
+          <video-player :video="s.video" :key="`${trick.slug}-${s.id}`"/>
           <v-card-text>{{ s.description }}</v-card-text>
         </v-card>
       </div>
@@ -21,7 +21,7 @@
           <v-chip
             small
             class="mb-1 ml-2"
-            :to="`/difficulty/${difficulty.id}`"
+            :to="`/difficulty/${difficulty.slug}`"
             >{{ difficulty.name }}</v-chip
           >
         </div>
@@ -34,7 +34,7 @@
           <v-chip-group>
             <v-chip
               v-for="d in rd.data"
-              :key="rd.idFactory(d.id)"
+              :key="rd.idFactory(d)"
               small
               :to="rd.routeFactory(d)"
             >
@@ -67,28 +67,28 @@ export default {
         {
           title: "Categories",
           data: this.categories.filter(
-            (x) => this.trick.categories.indexOf(x.id) >= 0
+            (x) => this.trick.categories.indexOf(x.slug) >= 0
           ),
-          idFactory: (c) => `category-${c.id}`,
-          routeFactory: (c) => `/category/${c.id}`,
+          idFactory: (c) => `category-${c.slug}`,
+          routeFactory: (c) => `/category/${c.slug}`,
         },
 
         {
           title: "Prerequisites",
           data: this.tricks.filter(
-            (x) => this.trick.prerequisites.indexOf(x.id) >= 0
+            (x) => this.trick.prerequisites.indexOf(x.slug) >= 0
           ),
-          idFactory: (t) => `trick-${t.id}`,
-          routeFactory: (t) => `/tricks/${t.id}`,
+          idFactory: (t) => `trick-${t.slug}`,
+          routeFactory: (t) => `/tricks/${t.slug}`,
         },
 
         {
           title: "Progressions",
           data: this.tricks.filter(
-            (x) => this.trick.progressions.indexOf(x.id) >= 0
+            (x) => this.trick.progressions.indexOf(x.slug) >= 0
           ),
-          idFactory: (t) => `trick-${t.id}`,
-          routeFactory: (t) => `/tricks/${t.id}`,
+          idFactory: (t) => `trick-${t.slug}`,
+          routeFactory: (t) => `/tricks/${t.slug}`,
         },
       ];
     },

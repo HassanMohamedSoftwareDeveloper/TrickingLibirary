@@ -8,7 +8,7 @@
       v-model="filter"
     ></v-text-field>
     <div v-for="t in filteredTricks">
-      {{ t.id }}-{{ t.name }}-{{ t.description }}
+      {{ t.slug }}-{{ t.name }}-{{ t.description }}
     </div>
   </div>
 </template>

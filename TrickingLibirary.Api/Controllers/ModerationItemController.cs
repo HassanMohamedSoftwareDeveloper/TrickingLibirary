@@ -1,10 +1,12 @@
 ﻿using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TrickingLibirary.Api.Form;
 using TrickingLibirary.Api.ViewModels;
 using TrickingLibirary.Domain.Entities;
 using TrickingLibirary.Domain.Entities.Modertion;
 using TrickingLibirary.Domain.Interfaces;
+using TrickingLibirary.Infrastructure.Data;
 
 namespace TrickingLibirary.Api.Controllers;
 [Route("api/[controller]")]
@@ -26,7 +28,7 @@ public class ModerationItemController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok(dbContext.ModerationItems.ToList());
+        return Ok(dbContext.ModerationItems.Where(x=>x.Deleted.Equals(false)).ToList());
     }
     [HttpGet("{id}")]
     public IActionResult Get(int id)
@@ -69,13 +71,35 @@ public class ModerationItemController : ControllerBase
             .ToList());
     }
     [HttpPost("{id}/reviews")]
-    public async Task<IActionResult> Review(int id, [FromBody] Review review)
+    public async Task<IActionResult> Review(int id,
+        [FromBody] ReviewForm reviewForm,
+        [FromServices] VersionMigrationContext migrationContext
+        )
     {
-        if (dbContext.ModerationItems.Any(x => x.Id.Equals(id)) is false) return NoContent();
-        review.ModerationItemId = id;
+        var modItem = dbContext.ModerationItems
+            .Include(x => x.Reviews).FirstOrDefault(x => x.Id.Equals(id));
+        if (modItem is null) return NoContent();
+
+        if (modItem.Deleted) return BadRequest("Moderation item no longer exist.");
+
+        var review = new Review
+        {
+            ModerationItemId = id,
+            Comment = reviewForm.Comment,
+            ReviewStatus = reviewForm.ReviewStatus,
+        };
+
+        if (modItem.Reviews.Count >= 3)
+        {
+            migrationContext.Migrate(modItem.Target, modItem.TargetVersion, modItem.Type);
+            modItem.Deleted = true;
+        }
+
         dbContext.Reviews.Add(review);
+
+
         await dbContext.SaveChangesAsync();
-        return Ok(review);
+        return Ok(ReviewViewModel.Create(review));
     }
     #endregion
 }

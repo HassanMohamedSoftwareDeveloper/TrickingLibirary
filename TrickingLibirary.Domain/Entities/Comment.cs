@@ -1,9 +1,11 @@
-﻿using TrickingLibirary.Domain.Entities.Modertion;
+﻿using TrickingLibirary.Domain.Entities.Abstractions;
+using TrickingLibirary.Domain.Entities.Modertion;
 
 namespace TrickingLibirary.Domain.Entities;
 
-public class Comment : BaseModel<int>
+public class Comment : TemporalModel
 {
+    public int Id { get; set; }
     public string Content { get; set; }
     public string HtmlContent { get; set; }
 
