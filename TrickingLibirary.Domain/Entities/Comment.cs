@@ -5,7 +5,6 @@ namespace TrickingLibirary.Domain.Entities;
 
 public class Comment : TemporalModel
 {
-    public int Id { get; set; }
     public string Content { get; set; }
     public string HtmlContent { get; set; }
 

@@ -25,7 +25,8 @@
               v-model="reviewComment"
             ></v-text-field>
           </v-card-text>
-          <v-card-actions class="justify-center">
+          <div v-if="outdated">outdated</div>
+          <v-card-actions v-else class="justify-center">
             <v-btn
               v-for="action in reviewActions"
               :key="`ra-${action.title}`"
@@ -45,6 +46,7 @@
 
 <script>
 import commentSection from "@/components/comments/comment-section.vue";
+
 const endpointResolver = (type) => {
   if (type === "trick") return "trick";
 };
@@ -68,26 +70,28 @@ const reviewStatusIcon = (status) => {
 export default {
   components: { commentSection },
   data: () => ({
+    current: null,
     item: null,
     comments: [],
     reviewComment: "",
     replyId: 0,
     reviews: [],
   }),
-  created() {
-    const { modId, type, trickId } = this.$route.params;
-    const endpoint = endpointResolver(type);
+  async created() {
+    const { modId } = this.$route.params;
+
+    const modItem = await this.$axios.$get(`/api/ModerationItem/${modId}`);
+    this.comments = modItem.comments;
+    this.reviews = modItem.reviews;
+
+    const endpoint = endpointResolver(modItem.type);
     this.$axios
-      .$get(`/api/${endpoint}/${trickId}`)
+      .$get(`/api/${endpoint}/${modItem.current}`)
+      .then((item) => (this.current = item));
+
+    this.$axios
+      .$get(`/api/${endpoint}/${modItem.target}`)
       .then((item) => (this.item = item));
-
-    this.$axios
-      .$get(`/api/ModerationItem/${modId}/comments`)
-      .then((comments) => (this.comments = comments));
-
-    this.$axios
-      .$get(`/api/ModerationItem/${modId}/reviews`)
-      .then((reviews) => (this.reviews = reviews));
   },
   methods: {
     sendComment(content) {
@@ -135,6 +139,13 @@ export default {
       return this.reviews.filter(
         (x) => x.reviewStatus === REVIEW_STATUS.APPROVED
       ).length;
+    },
+    outdated() {
+      return (
+        this.current &&
+        this.item &&
+        this.item.version - this.current.version <= 0
+      );
     },
   },
 };

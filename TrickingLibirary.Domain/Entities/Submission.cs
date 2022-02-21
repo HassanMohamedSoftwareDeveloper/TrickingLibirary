@@ -4,7 +4,6 @@ namespace TrickingLibirary.Domain.Entities;
 
 public class Submission : TemporalModel
 {
-    public int Id { get; set; }
     public int VideoId { get; set; }
     public Video Video { get; set; }
     public string TrickId { get; set; }

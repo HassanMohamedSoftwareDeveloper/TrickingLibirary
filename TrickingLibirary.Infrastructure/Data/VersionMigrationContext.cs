@@ -15,17 +15,46 @@ public class VersionMigrationContext
     #endregion
 
     #region Methods :
-    public void Migrate(string targetId, int targetVersion, string targetType)
+    public void Migrate(ModerationItem modItem)
     {
-        var (current, next) = ResolveCurrentAndNextEntities(targetId, targetVersion, targetType);
+        var source = GetSource(modItem.Type);
+
+        var current = source.FirstOrDefault(x => x.Id.Equals(modItem.Current));
+        var target = source.FirstOrDefault(x => x.Id.Equals(modItem.Target));
+
+        if (target is null) throw new InvalidOperationException("Target not found");
+
         if (current is not null)
+        {
+            if (target.Version - current.Version <= 0)
+            {
+                throw new InvalidVersionException($"Current version is {current.Version}, Target version is {target.Version}, for {modItem.Type}.");
+            }
             current.Active = false;
-        next.Active = true;
-        next.Temporary = false;
+
+            var outdatedModerationItems = dbContext.ModerationItems
+                .Where(x => x.Deleted.Equals(false) && x.Type == modItem.Type && !x.Id.Equals(modItem.Id)).ToList();
+
+            foreach (var outdatedModerationItem in outdatedModerationItems)
+            {
+                outdatedModerationItem.Current = target.Id;
+            }
+        }
+        target.Active = true;
+
+
     }
     #endregion
 
     #region Helpers :
+    private IQueryable<VersionModel> GetSource(string type)
+    {
+        if (type.Equals(MpderationTypes.Trick))
+        {
+            return dbContext.Tricks;
+        }
+        throw new ArgumentException(null, nameof(type));
+    }
     private (VersionModel Current, VersionModel Next) ResolveCurrentAndNextEntities(string targetId, int targetVersion, string targetType)
     {
         if (targetType.Equals(MpderationTypes.Trick))
@@ -37,4 +66,8 @@ public class VersionMigrationContext
         throw new ArgumentException(null, nameof(targetType));
     }
     #endregion
+}
+public class InvalidVersionException : Exception
+{
+    public InvalidVersionException(string message) : base(message) { }
 }

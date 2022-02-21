@@ -14,7 +14,7 @@
       </v-stepper-header>
 
       <v-stepper-items class="fpt-0">
-        <v-stepper-content  step="1">
+        <v-stepper-content step="1">
           <div>
             <v-text-field label="Name" v-model="form.name"></v-text-field>
             <v-text-field
@@ -53,14 +53,14 @@
               chips
               deletable-chips
             ></v-select>
-            <div  class="d-flex justify-center">
-            <v-btn @click="step++">Next</v-btn>
+            <div class="d-flex justify-center">
+              <v-btn @click="step++">Next</v-btn>
             </div>
           </div>
         </v-stepper-content>
 
         <v-stepper-content step="2">
-          <div  class="d-flex justify-center">
+          <div class="d-flex justify-center">
             <v-btn @click="save">Save</v-btn>
           </div>
         </v-stepper-content>
@@ -70,37 +70,46 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
 import { close } from "./_shared";
 
 export default {
   name: "trick-steps",
-  mixins:[close],
+  mixins: [close],
   data: () => ({
-  step: 1,
-  form: {
-    name: "",
-    description: "",
-    difficulty: "",
-    prerequisites: [],
-    progressions: [],
-    categories: [],
+    step: 1,
+    form: {
+      name: "",
+      description: "",
+      difficulty: "",
+      prerequisites: [],
+      progressions: [],
+      categories: [],
+    },
+    testDate: [
+      { text: "Foo", value: 1 },
+      { text: "Bar", value: 2 },
+      { text: "Baz", value: 3 },
+    ],
+  }),
+  created() {
+    if (this.editing) {
+      Object.assign(this.form, this.editPayLoad);
+    }
   },
-  testDate: [
-    { text: "Foo", value: 1 },
-    { text: "Bar", value: 2 },
-    { text: "Baz", value: 3 },
-  ],
-}),
   computed: {
+    ...mapState("video-upload", ["editing", "editPayLoad"]),
     ...mapGetters("tricks", ["categoryItems", "difficultyItems", "trickItems"]),
   },
   methods: {
-    ...mapActions("tricks", ["createTrick"]),
+    ...mapActions("tricks", ["createTrick","updateTrick"]),
     async save() {
-      await this.createTrick({ form: this.form });
+      if(this.editing){
+        await this.updateTrick({ form: this.form });
+      }else{
+        await this.createTrick({ form: this.form });
+      }
       this.close();
-
     },
   },
 };

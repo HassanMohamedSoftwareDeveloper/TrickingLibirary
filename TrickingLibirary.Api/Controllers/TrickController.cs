@@ -37,9 +37,13 @@ public class TrickController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult Get(string id)
     {
-        return Ok(dbContext.Tricks
-            .Where(x => x.Slug.Equals(id, StringComparison.InvariantCultureIgnoreCase) && x.Active)
-            .Select(TrickViewModels.Projection).FirstOrDefault());
+        var query = dbContext.Tricks.AsQueryable();
+        query = int.TryParse(id, out int intId) ? query.Where(x => x.Id.Equals(intId)) :
+             query.Where(x => x.Slug.Equals(id, StringComparison.InvariantCultureIgnoreCase) && x.Active);
+
+        var trick = query.Select(TrickViewModels.Projection).FirstOrDefault();
+
+        return trick is null ? NoContent() : Ok(trick);
     }
     [HttpGet("{trickId}/submissions")]
     public IActionResult ListSubmissionsForTrick(string trickId)
@@ -57,15 +61,13 @@ public class TrickController : ControllerBase
             Version = 1,
             Description = trickForm.Description,
             Difficulty = trickForm.Difficulty,
-            Prerequisites = trickForm.Prerequisites.Select(x => new TrickRelationship { PrerequisiteId = x }).ToList(),
-            Progressions = trickForm.Prerequisites.Select(x => new TrickRelationship { ProgressionId = x }).ToList(),
             TrickCategories = trickForm.Categories.Select(x => new TrickCategory { CategoryId = x }).ToList()
         };
         dbContext.Tricks.Add(trick);
+        await dbContext.SaveChangesAsync();
         dbContext.ModerationItems.Add(new ModerationItem
         {
-            Target = trick.Slug,
-            TargetVersion = trick.Version,
+            Target = trick.Id,
             Type = MpderationTypes.Trick
         });
         await dbContext.SaveChangesAsync();
@@ -74,14 +76,14 @@ public class TrickController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] TrickForm trickForm)
     {
-        var trick = await dbContext.Tricks.FirstOrDefaultAsync(x => x.Slug.Equals(trickForm.Id));
+        var trick = await dbContext.Tricks.FirstOrDefaultAsync(x => x.Id.Equals(trickForm.Id));
         if (trick is null) return NoContent();
 
         var newTrick = new Trick
         {
             Slug = trick.Slug,
             Name = trick.Name,
-            Version = dbContext.Tricks.LatestVersion(1),
+            Version = trick.Version + 1,
             Description = trickForm.Description,
             Difficulty = trickForm.Difficulty,
             Prerequisites = trickForm.Prerequisites.Select(x => new TrickRelationship { PrerequisiteId = x }).ToList(),
@@ -89,10 +91,11 @@ public class TrickController : ControllerBase
             TrickCategories = trickForm.Categories.Select(x => new TrickCategory { CategoryId = x }).ToList()
         };
         dbContext.Tricks.Add(newTrick);
+        await dbContext.SaveChangesAsync();
         dbContext.ModerationItems.Add(new ModerationItem
         {
-            Target = trick.Slug,
-            TargetVersion = newTrick.Version,
+            Current = trick.Id,
+            Target = newTrick.Id,
             Type = MpderationTypes.Trick
         });
         await dbContext.SaveChangesAsync();

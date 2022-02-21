@@ -25,18 +25,19 @@ public static class TestDataHelper
 
             var dbContext = scope.ServiceProvider.GetRequiredService<IDbContext>();
             dbContext.Difficulties.AddRange(
-                new Domain.Entities.Difficulty { Slug = "easy",Version=1, Active=true,Name = "Easy", Description = "Easy Test" },
+                new Domain.Entities.Difficulty { Slug = "easy", Version = 1, Active = true, Name = "Easy", Description = "Easy Test" },
                 new Domain.Entities.Difficulty { Slug = "medium", Version = 1, Active = true, Name = "Medium", Description = "Medium Test" },
                 new Domain.Entities.Difficulty { Slug = "hard", Version = 1, Active = true, Name = "Hard", Description = "Hard Test" });
 
             dbContext.Categories.AddRange(
-               new Domain.Entities.Category { Slug = "kick", Version=1, Active = true, Name = "Kick", Description = "Kick Test" },
-               new Domain.Entities.Category { Slug = "flip", Version = 1, Active = true, Name = "Flip", Description = "Flip Test" },
-               new Domain.Entities.Category { Slug = "transition", Version = 1, Active = true, Name = "Transition", Description = "Transition Test" });
+               new Domain.Entities.Category { Id = 1, Slug = "kick", Version = 1, Active = true, Name = "Kick", Description = "Kick Test" },
+               new Domain.Entities.Category { Id = 2, Slug = "flip", Version = 1, Active = true, Name = "Flip", Description = "Flip Test" },
+               new Domain.Entities.Category { Id = 3, Slug = "transition", Version = 1, Active = true, Name = "Transition", Description = "Transition Test" });
 
             dbContext.Tricks.AddRange(
                 new Domain.Entities.Trick
                 {
+                    Id = 1,
                     Slug = "backwards-roll",
                     Version = 1,
                     Active = true,
@@ -45,11 +46,12 @@ public static class TestDataHelper
                     Difficulty = "easy",
                     TrickCategories = new List<Domain.Entities.TrickCategory>
                     {
-                        new Domain.Entities.TrickCategory {CategoryId="flip"}
+                        new Domain.Entities.TrickCategory {CategoryId=2}
                     }
                 },
                 new Domain.Entities.Trick
                 {
+                    Id = 2,
                     Slug = "forwards-roll",
                     Version = 1,
                     Active = true,
@@ -58,11 +60,12 @@ public static class TestDataHelper
                     Difficulty = "easy",
                     TrickCategories = new List<Domain.Entities.TrickCategory>
                     {
-                        new Domain.Entities.TrickCategory {CategoryId="flip"}
+                        new Domain.Entities.TrickCategory {CategoryId=2}
                     }
                 },
                 new Domain.Entities.Trick
                 {
+                    Id = 3,
                     Slug = "back-flip",
                     Version = 1,
                     Active = true,
@@ -71,11 +74,11 @@ public static class TestDataHelper
                     Difficulty = "medium",
                     TrickCategories = new List<Domain.Entities.TrickCategory>
                     {
-                        new Domain.Entities.TrickCategory {CategoryId="flip"}
+                        new Domain.Entities.TrickCategory {CategoryId=2}
                     },
                     Prerequisites = new List<Domain.Entities.TrickRelationship>
                     {
-                        new Domain.Entities.TrickRelationship{PrerequisiteId="backwards-roll"}
+                        new Domain.Entities.TrickRelationship{PrerequisiteId=1}
                     }
                 }
                 );
@@ -111,7 +114,7 @@ public static class TestDataHelper
             dbContext.ModerationItems.AddRange(
                 new ModerationItem
                 {
-                    Target = "forwards-roll",
+                    Target = 2,
                     Type = MpderationTypes.Trick
                 }
                 );

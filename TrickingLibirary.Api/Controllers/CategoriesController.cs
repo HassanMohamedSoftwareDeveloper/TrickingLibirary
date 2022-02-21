@@ -30,11 +30,11 @@ public class CategoriesController : ControllerBase
         return Ok(dbContext.Categories.FirstOrDefault(x => x.Slug.Equals(id, StringComparison.InvariantCultureIgnoreCase)));
     }
     [HttpGet("{id}/tricks")]
-    public IActionResult ListCategoryTricks(string id)
+    public IActionResult ListCategoryTricks(int id)
     {
         return Ok(dbContext.TrickCategories
             .Include(x => x.Trick)
-            .Where(x => x.CategoryId.Equals(id, StringComparison.InvariantCultureIgnoreCase))
+            .Where(x => x.CategoryId.Equals(id))
             .Select(x => x.Trick).ToList());
     }
     [HttpPost]

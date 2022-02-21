@@ -7,12 +7,12 @@
           v-for="s in submissions"
           :key="`${trick.slug}-${s.id}`"
         >
-          <video-player :video="s.video" :key="`${trick.slug}-${s.id}`"/>
+          <video-player :video="s.video" :key="`${trick.slug}-${s.id}`" />
           <v-card-text>{{ s.description }}</v-card-text>
         </v-card>
       </div>
     </template>
-    <template v-slot:item>
+    <template v-slot:item="{close}">
       <div>
         <div class="text-h5">
           <span>
@@ -42,13 +42,18 @@
             </v-chip>
           </v-chip-group>
         </div>
+        <v-divider class="my-1"></v-divider>
+        <div>
+          <v-btn @click="edit();close();" outlined small>Edit</v-btn>
+        </div>
       </div>
     </template>
   </item-content-layout>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
+import TrickSteps from "@/components/content-creation/trick-steps.vue";
 import ItemContentLayout from "../../components/item-content-layout.vue";
 import videoPlayer from "../../components/video-player.vue";
 export default {
@@ -57,6 +62,16 @@ export default {
     trick: null,
     difficulty: null,
   }),
+  methods: {
+    ...mapMutations("video-upload", ["activate"]),
+    edit() {
+      this.activate({
+        component: TrickSteps,
+        edit: true,
+        editPayLoad: this.trick,
+      });
+    },
+  },
   computed: {
     ...mapState("submissions", ["submissions"]),
     ...mapState("tricks", ["categories", "tricks"]),

@@ -8,8 +8,8 @@ const _58831c8d = () => interopDefault(import('..\\pages\\moderation\\index.vue'
 const _3a052fb8 = () => interopDefault(import('..\\pages\\profile\\index.vue' /* webpackChunkName: "pages/profile/index" */))
 const _9dee7300 = () => interopDefault(import('..\\pages\\category\\_category.vue' /* webpackChunkName: "pages/category/_category" */))
 const _0a2820e0 = () => interopDefault(import('..\\pages\\difficulty\\_difficulty.vue' /* webpackChunkName: "pages/difficulty/_difficulty" */))
+const _e5ae6eda = () => interopDefault(import('..\\pages\\moderation\\_modId.vue' /* webpackChunkName: "pages/moderation/_modId" */))
 const _4ddd6ffa = () => interopDefault(import('..\\pages\\tricks\\_trick.vue' /* webpackChunkName: "pages/tricks/_trick" */))
-const _9d07fd36 = () => interopDefault(import('..\\pages\\moderation\\_modId\\_type\\_trickId.vue' /* webpackChunkName: "pages/moderation/_modId/_type/_trickId" */))
 const _0e557673 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 const emptyFn = () => {}
@@ -40,13 +40,13 @@ export const routerOptions = {
     component: _0a2820e0,
     name: "difficulty-difficulty"
   }, {
+    path: "/moderation/:modId",
+    component: _e5ae6eda,
+    name: "moderation-modId"
+  }, {
     path: "/tricks/:trick?",
     component: _4ddd6ffa,
     name: "tricks-trick"
-  }, {
-    path: "/moderation/:modId/:type?/:trickId?",
-    component: _9d07fd36,
-    name: "moderation-modId-type-trickId"
   }, {
     path: "/",
     component: _0e557673,

@@ -8,14 +8,14 @@ public class TrickRelationshipConfiguration : IEntityTypeConfiguration<TrickRela
 {
     public void Configure(EntityTypeBuilder<TrickRelationship> builder)
     {
-        builder.HasKey(x => new { x.PrerequisiteId, x.PrerequisiteVersion, x.ProgressionId, x.ProgressionVersion });
+        builder.HasKey(x => new { x.PrerequisiteId, x.ProgressionId });
 
         builder.HasOne(x => x.Progression)
             .WithMany(x => x.Prerequisites)
-            .HasForeignKey(x => new { x.ProgressionId, x.ProgressionVersion });
+            .HasForeignKey(x => x.ProgressionId);
 
         builder.HasOne(x => x.Prerequisite)
            .WithMany(x => x.Progressions)
-           .HasForeignKey(x => new { x.PrerequisiteId, x.PrerequisiteVersion });
+           .HasForeignKey(x => x.PrerequisiteId);
     }
 }

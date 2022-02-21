@@ -28,12 +28,17 @@ public class ModerationItemController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok(dbContext.ModerationItems.Where(x=>x.Deleted.Equals(false)).ToList());
+        return Ok(dbContext.ModerationItems.Where(x => x.Deleted.Equals(false)).ToList());
     }
     [HttpGet("{id}")]
     public IActionResult Get(int id)
     {
-        return Ok(dbContext.ModerationItems.FirstOrDefault(x => x.Id.Equals(id)));
+        return Ok(dbContext.ModerationItems
+            .Include(x => x.Comments)
+            .Include(x => x.Reviews)
+            .Where(x => x.Id.Equals(id))
+            .Select(ModerationItemViewModels.Projection)
+            .FirstOrDefault());
     }
 
     [HttpGet("{id}/comments")]
@@ -89,10 +94,18 @@ public class ModerationItemController : ControllerBase
             ReviewStatus = reviewForm.ReviewStatus,
         };
 
-        if (modItem.Reviews.Count >= 3)
+        try
         {
-            migrationContext.Migrate(modItem.Target, modItem.TargetVersion, modItem.Type);
-            modItem.Deleted = true;
+            if (modItem.Reviews.Count >= 3)
+            {
+                migrationContext.Migrate(modItem);
+                modItem.Deleted = true;
+            }
+        }
+        catch (InvalidVersionException ex)
+        {
+
+            return BadRequest(ex.Message);
         }
 
         dbContext.Reviews.Add(review);

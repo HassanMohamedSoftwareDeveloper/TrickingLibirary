@@ -4,15 +4,21 @@ const initState = () => ({
   uploadCompleted: false,
   active: false,
   component: null,
+  editing: false,
+  editPayLoad: null,
 });
 
 
 export const state = initState;
 
 export const mutations = {
-  activate(state, { component }) {
+  activate(state, { component, edit=false, editPayLoad=null }) {
     state.active = true;
     state.component = component;
+    if (edit) {
+      state.editing = true;
+      state.editPayLoad=editPayLoad;
+    }
   },
   hide(state) {
     state.active = false;
