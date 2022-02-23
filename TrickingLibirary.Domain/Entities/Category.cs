@@ -2,7 +2,7 @@
 
 namespace TrickingLibirary.Domain.Entities;
 
-public class Category:SlugModel
+public class Category: BaseModel<string>
 {
     public string Name { get; set; }
     public string Description { get; set; }

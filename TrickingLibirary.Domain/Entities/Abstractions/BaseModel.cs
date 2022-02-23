@@ -1,7 +1,7 @@
 ﻿namespace TrickingLibirary.Domain.Entities.Abstractions;
 
-public abstract class TemporalModel
+public abstract class BaseModel<TKey>
 {
-    public int Id { get; set; }
+    public TKey Id { get; set; }
     public bool Deleted { get; set; }
 }

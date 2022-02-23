@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace TrickingLibirary.Api.Pages.Account
 {
-    public class LoginModel : PageModel
+    public class LoginModel : BasePage
     {
         [BindProperty]
         public LoginForm Form { get; set; }
@@ -19,6 +19,8 @@ namespace TrickingLibirary.Api.Pages.Account
             if (ModelState.IsValid is false) return Page();
             var signInResult = await signInManager.PasswordSignInAsync(Form.Username, Form.Password, true, false);
             if (signInResult.Succeeded) return Redirect(Form.ReturnUrl);
+
+            CustomErrors.Add("Invalid Login attempt, please try again.");
             return Page();
         }
         public class LoginForm

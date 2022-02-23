@@ -2,7 +2,7 @@
 
 namespace TrickingLibirary.Domain.Entities.Modertion;
 
-public class ModerationItem : TemporalModel
+public class ModerationItem : BaseModel<int>
 {
     public int Current { get; set; }
     public int Target { get; set; }

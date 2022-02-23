@@ -2,7 +2,7 @@
 
 namespace TrickingLibirary.Domain.Entities;
 
-public class Submission : TemporalModel
+public class Submission : BaseModel<int>
 {
     public int VideoId { get; set; }
     public Video Video { get; set; }

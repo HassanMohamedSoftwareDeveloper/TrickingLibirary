@@ -48,8 +48,9 @@ public class TrickController : ControllerBase
     [HttpGet("{trickId}/submissions")]
     public IActionResult ListSubmissionsForTrick(string trickId)
     {
-        return Ok(dbContext.Submissions.Include(x => x.Video)
-            .Where(x => x.TrickId.Equals(trickId, StringComparison.InvariantCultureIgnoreCase)).ToList());
+        return Ok(dbContext.Submissions.Include(x => x.Video).Include(x=>x.User)
+            .Where(x => x.TrickId.Equals(trickId, StringComparison.InvariantCultureIgnoreCase))
+            .Select(SubmissionViewModels.Projection).ToList());
     }
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] TrickForm trickForm)

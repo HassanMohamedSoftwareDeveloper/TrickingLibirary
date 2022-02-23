@@ -7,8 +7,8 @@
           <v-btn
             class="mx-1"
             v-for="item in s.collection"
-            :key="`${item.title}-${item.slug}`"
-            :to="s.routeFactory(item.slug)"
+            :key="`${s.title}-${item.id}`"
+            :to="s.routeFactory(item)"
           >
             {{ item.name }}
           </v-btn>
@@ -21,34 +21,25 @@
 
 <script>
 import { mapState } from "vuex";
-import { UserManager, WebStorageStateStore } from "oidc-client";
 export default {
-  name: "IndexPage",
-  methods: {
-    api(x) {
-      return this.$axios
-        .$get("/api/trick/" + x)
-        .then((msg) => console.log(msg));
-    },
-  },
   computed: {
-    ...mapState("tricks", ["tricks", "categories", "difficulties"]),
+    ...mapState("tricks", ["lists"]),
     sections() {
       return [
         {
-          collection: this.tricks,
+          collection: this.lists.tricks,
           title: "Tricks",
-          routeFactory: (id) => `/tricks/${id}`,
+          routeFactory: (i) => `/tricks/${i.slug}`,
         },
         {
-          collection: this.categories,
+          collection: this.lists.categories,
           title: "Categories",
-          routeFactory: (id) => `/category/${id}`,
+          routeFactory: (i) => `/category/${i.id}`,
         },
         {
-          collection: this.difficulties,
+          collection: this.lists.difficulties,
           title: "Difficulties",
-          routeFactory: (id) => `/difficulty/${id}`,
+          routeFactory: (i) => `/difficulty/${i.id}`,
         },
       ];
     },

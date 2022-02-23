@@ -53,7 +53,7 @@
             </v-list-item>
           </v-list>
         </v-menu>
-        <v-btn @click="$auth.signinRedirect()" depressed outlined v-else>
+        <v-btn @click="login" depressed outlined v-else>
           <v-icon left>mdi-account-circle-outline</v-icon>Login
         </v-btn>
       </v-skeleton-loader>
@@ -77,7 +77,7 @@
 <script>
 import ContentCreationDialog from "../components/content-creation/content-creation-dialog.vue";
 import HeaderMenu from "../components/header-menu.vue";
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters,mapActions } from "vuex";
 export default {
   components: {
     ContentCreationDialog,
@@ -87,5 +87,6 @@ export default {
     ...mapState("auth", ["loading", "profile"]),
     ...mapGetters("auth", ["authenticated", "moderator"]),
   },
+  methods:mapActions("auth",["login"]),
 };
 </script>

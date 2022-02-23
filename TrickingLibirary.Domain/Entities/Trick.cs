@@ -2,8 +2,9 @@
 
 namespace TrickingLibirary.Domain.Entities;
 
-public class Trick : SlugModel
+public class Trick : VersionModel
 {
+    public string Slug { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public string Difficulty { get; set; }

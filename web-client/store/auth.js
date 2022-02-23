@@ -43,32 +43,33 @@ export const actions = {
         }
       })
       .catch(error => {
-        console.log(error.message);
         if (error.message === 'login_required') {
           return this.$auth.removeUser();
         }
       })
       .finally(() => commit('finish'));
   },
-  _watchUserLoaded({ state, getters }, action) {
+  login() {
+    if (process.server) return;
+    localStorage.setItem("post-login-redirect-path", location.pathname)
+    return this.$auth.signinRedirect();
+  },
+  _watchUserLoaded({ state, getters,dispatch }, action) {
     if (process.server) return;
     return new Promise((resolve, reject) => {
       if (state.loading) {
-        console.log("Start watching");
         const unwatch = this.watch((s) => s.auth.loading,
           (n, o) => {
             if (!getters.authenticated) {
-              this.$auth.signinRedirect()
+              dispatch('login')
             }
             else if (!n) {
-              console.log("user is already loaded excuting action");
               resolve(action())
             }
             unwatch();
           })
       }
       else {
-        console.log("user is already loaded excuting action");
         resolve(action());
       }
     })

@@ -1,6 +1,6 @@
 ﻿namespace TrickingLibirary.Domain.Entities.Abstractions;
 
-public abstract class VersionModel : TemporalModel
+public abstract class VersionModel : BaseModel<int>
 {
    
     public int Version { get; set; }

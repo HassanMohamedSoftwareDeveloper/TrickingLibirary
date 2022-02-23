@@ -3,7 +3,7 @@ using TrickingLibirary.Domain.Entities.Modertion;
 
 namespace TrickingLibirary.Domain.Entities;
 
-public class Comment : TemporalModel
+public class Comment : BaseModel<int>
 {
     public string Content { get; set; }
     public string HtmlContent { get; set; }

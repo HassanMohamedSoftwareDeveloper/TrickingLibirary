@@ -6,6 +6,7 @@ using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
 using TrickingLibirary.Api.BackgroundServices.VideoEditing;
 using TrickingLibirary.Api.Helpers;
+using TrickingLibirary.Api.ViewModels;
 using TrickingLibirary.Domain.Entities;
 using TrickingLibirary.Domain.Interfaces;
 
@@ -18,12 +19,14 @@ public class UserController : ApiController
     #region Fields :
     private readonly IDbContext dbContext;
     #endregion
+
     #region CTORS :
     public UserController(IDbContext dbContext)
     {
         this.dbContext = dbContext;
     }
     #endregion
+
     #region Endpoints :
     [HttpGet("me")]
     public async Task<IActionResult> GetMe()
@@ -46,8 +49,9 @@ public class UserController : ApiController
     [HttpGet("{id}")]
     public IActionResult GetUser(string id) => Ok();
     [HttpGet("{id}/submissions")]
-    public Task<List<Submission>> GetUserSubmissions(string id)
-    => dbContext.Submissions.Include(x => x.Video).Where(x => x.UserId.Equals(id)).ToListAsync();
+    public Task<List<object>> GetUserSubmissions(string id)
+    => dbContext.Submissions.Include(x => x.Video).Include(x=>x.User)
+        .Where(x => x.UserId.Equals(id)).Select(SubmissionViewModels.Projection).ToListAsync();
 
     [HttpPut("me/image")]
     public async Task<IActionResult> UpdateProfileImage(IFormFile image, [FromServices] IFileManager fileManager)
@@ -58,13 +62,13 @@ public class UserController : ApiController
         if (user is null) return NoContent();
         string fileName = Tricking_LibiraryConstants.File.Actions.GenerateFileName(Tricking_LibiraryConstants.File.Prefixes.ProfilePrifex,
             Tricking_LibiraryConstants.File.Mimes.ImageMime);
-        await using (var stream = System.IO.File.Create(fileManager.GeneratePath(Tricking_LibiraryConstants.File.FileType.Image,fileName)))
+        await using (var stream = System.IO.File.Create(fileManager.GeneratePath(Tricking_LibiraryConstants.File.FileType.Image, fileName)))
         using (Image imageProcessor = await Image.LoadAsync(image.OpenReadStream()))
         {
             imageProcessor.Mutate(x => x.Resize(48, 48));
-            await imageProcessor.SaveAsync(stream,new JpegEncoder());
+            await imageProcessor.SaveAsync(stream, new JpegEncoder());
         }
-        user.Image =fileManager.GetFileUrl(fileName,Tricking_LibiraryConstants.File.FileType.Image);
+        user.Image = fileManager.GetFileUrl(fileName, Tricking_LibiraryConstants.File.FileType.Image);
         await dbContext.SaveChangesAsync();
         return Ok(user);
     }

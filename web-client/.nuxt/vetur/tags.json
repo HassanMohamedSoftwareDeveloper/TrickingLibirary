@@ -5,11 +5,29 @@
   "ItemContentLayout": {
     "description": "Auto imported from components/item-content-layout.vue"
   },
+  "Submission": {
+    "description": "Auto imported from components/submission.vue"
+  },
   "TrickList": {
     "description": "Auto imported from components/trick-list.vue"
   },
+  "UserHeader": {
+    "description": "Auto imported from components/user-header.vue"
+  },
   "VideoPlayer": {
     "description": "Auto imported from components/video-player.vue"
+  },
+  "CommentsCommentBody": {
+    "description": "Auto imported from components/comments/comment-body.vue"
+  },
+  "CommentsCommentInput": {
+    "description": "Auto imported from components/comments/comment-input.vue"
+  },
+  "CommentsCommentSection": {
+    "description": "Auto imported from components/comments/comment-section.vue"
+  },
+  "CommentsComment": {
+    "description": "Auto imported from components/comments/comment.vue"
   },
   "ContentCreationCategoryForm": {
     "description": "Auto imported from components/content-creation/category-form.vue"
@@ -28,17 +46,5 @@
   },
   "ContentCreationShared": {
     "description": "Auto imported from components/content-creation/_shared.js"
-  },
-  "CommentsCommentBody": {
-    "description": "Auto imported from components/comments/comment-body.vue"
-  },
-  "CommentsCommentInput": {
-    "description": "Auto imported from components/comments/comment-input.vue"
-  },
-  "CommentsCommentSection": {
-    "description": "Auto imported from components/comments/comment-section.vue"
-  },
-  "CommentsComment": {
-    "description": "Auto imported from components/comments/comment.vue"
   }
 }

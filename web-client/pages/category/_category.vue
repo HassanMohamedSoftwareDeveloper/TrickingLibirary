@@ -1,7 +1,7 @@
 <template>
   <item-content-layout>
     <template v-slot:content>
-      <trick-list :tricks="tricks"  />
+      <trick-list :tricks="tricks" />
     </template>
     <template v-slot:item>
       <div v-if="category">
@@ -13,7 +13,7 @@
   </item-content-layout>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import trickList from "../../components/trick-list.vue";
 import ItemContentLayout from "../../components/item-content-layout.vue";
 export default {
@@ -22,10 +22,10 @@ export default {
     category: null,
     tricks: [],
   }),
-  computed: mapGetters("tricks", ["categoryById"]),
+  computed: mapState("tricks", ["dictionary"]),
   async fetch() {
     const categoryId = this.$route.params.category;
-    this.category = this.categoryById(categoryId);
+    this.category = this.dictionary.categories[categoryId];
     this.tricks = await this.$axios.$get(
       `/api/categories/${categoryId}/tricks`
     );

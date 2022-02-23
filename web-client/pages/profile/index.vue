@@ -1,12 +1,11 @@
 <template>
   <item-content-layout>
     <template v-slot:content>
-      <div v-if="submissions">
-        <v-card class="mb-3" v-for="s in submissions" :key="`${s.id}`">
-          <video-player :video="s.video" :key="`v-${s.id}`" />
-          <v-card-text>{{ s.description }}</v-card-text>
-        </v-card>
-      </div>
+      <Submission
+        :submission="s"
+        v-for="s in submissions"
+        :key="`submission-${s.id}`"
+      />
     </template>
     <template v-slot:item>
       <div v-if="profile">
@@ -40,11 +39,12 @@
 </template>
 <script>
 import ItemContentLayout from "@/components/item-content-layout.vue";
-import videoPlayer from "@/components/video-player.vue";
+import Submission from "../../components/submission.vue";
+
 import { mapState ,mapMutations} from "vuex";
 
 export default {
-  components: { videoPlayer, ItemContentLayout },
+  components: { Submission, ItemContentLayout },
   data: () => ({
     submissions: [],
     uploadingImage: false,

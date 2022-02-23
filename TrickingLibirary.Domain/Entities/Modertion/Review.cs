@@ -2,7 +2,7 @@
 
 namespace TrickingLibirary.Domain.Entities.Modertion;
 
-public class Review : TemporalModel
+public class Review : BaseModel<int>
 {
     public string Comment { get; set; }
     public int ModerationItemId { get; set; }
