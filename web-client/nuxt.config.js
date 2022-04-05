@@ -5,13 +5,13 @@ import fs from 'fs';
 export default {
   publicRuntimeConfig: {
     axios: {
-      baseURL: "https://localhost:44379/",
+      baseURL: "https://localhost:7241/",
       https: true
     },
   },
   privateRuntimeConfig: {
     axios: {
-      baseURL: "http://localhost:52891/",
+      baseURL: "http://localhost:5241/",
       https: false
     },
   },

@@ -2,7 +2,7 @@ import { UserManager, WebStorageStateStore } from "oidc-client";
 
 export default async ({ app, store }, inject) => {
   const userManager = new UserManager({
-    authority: "https://localhost:44379/",
+    authority: "https://localhost:7241/",
     client_id: "web-client",
     redirect_uri: "https://localhost:3000/oidc/sign-in-callback.html",
     response_type: "code",

@@ -15,8 +15,8 @@ public static class TrickViewModels
             trick.Description,
             trick.Difficulty,
             trick.Version,
-            Categories = trick.TrickCategories.Select(x => x.CategoryId),
-            Prerequisites = trick.Prerequisites.Select(x => x.PrerequisiteId),
-            Progressions = trick.Progressions.Select(x => x.ProgressionId),
+            Categories = trick.TrickCategories.AsQueryable().Select(x => x.CategoryId).ToList(),
+            Prerequisites = trick.Prerequisites.AsQueryable().Where(x => x.Active).Select(x => x.PrerequisiteId).ToList(),
+            Progressions = trick.Progressions.AsQueryable().Where(x => x.Active).Select(x => x.ProgressionId).ToList(),
         };
 }

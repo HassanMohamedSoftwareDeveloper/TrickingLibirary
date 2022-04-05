@@ -31,8 +31,12 @@ public class TrickController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok(dbContext.Tricks.
-            Where(x => x.Active).Select(TrickViewModels.Projection).ToList());
+        return Ok(dbContext.Tricks.AsNoTracking()
+            .Where(x => x.Active)
+            .Include(x => x.TrickCategories)
+            .Include(x => x.Prerequisites)
+            .Include(x => x.Progressions)
+            .Select(TrickViewModels.Projection).ToList());
     }
     [HttpGet("{id}")]
     public IActionResult Get(string id)
@@ -62,6 +66,8 @@ public class TrickController : ControllerBase
             Version = 1,
             Description = trickForm.Description,
             Difficulty = trickForm.Difficulty,
+            Prerequisites = trickForm.Prerequisites.Select(x => new TrickRelationship { PrerequisiteId = x }).ToList(),
+            Progressions = trickForm.Prerequisites.Select(x => new TrickRelationship { ProgressionId = x }).ToList(),
             TrickCategories = trickForm.Categories.Select(x => new TrickCategory { CategoryId = x }).ToList()
         };
         dbContext.Tricks.Add(trick);

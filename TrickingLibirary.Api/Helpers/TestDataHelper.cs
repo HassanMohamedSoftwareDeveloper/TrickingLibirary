@@ -29,7 +29,7 @@ public static class TestDataHelper
             {
                 Id = testUser.Id,
                 Username = testUser.UserName,
-                Image = "https://localhost:44379/api/files/image/user.jpg"
+                Image = "https://localhost:7241/api/files/image/user.jpg"
             });
 
             dbContext.Difficulties.AddRange(
@@ -86,7 +86,7 @@ public static class TestDataHelper
                     },
                     Prerequisites = new List<Domain.Entities.TrickRelationship>
                     {
-                        new Domain.Entities.TrickRelationship{PrerequisiteId=1}
+                        new Domain.Entities.TrickRelationship{PrerequisiteId=1,Active=true}
                     }
                 }
                 );
@@ -98,8 +98,8 @@ public static class TestDataHelper
                     Description = "test desceiption",
                     Video = new Domain.Entities.Video
                     {
-                        VideoLink = "https://localhost:44379/api/files/video/one.mp4",
-                        ThumbLink = "https://localhost:44379/api/files/image/one.jpg",
+                        VideoLink = "https://localhost:7241/api/files/video/one.mp4",
+                        ThumbLink = "https://localhost:7241/api/files/image/one.jpg",
                     },
                     VideoProcessed = true,
                     UserId = testUser.Id,
@@ -111,8 +111,8 @@ public static class TestDataHelper
                     Description = "test desceiption",
                     Video = new Domain.Entities.Video
                     {
-                        VideoLink = "https://localhost:44379/api/files/video/two.mp4",
-                        ThumbLink = "https://localhost:44379/api/files/image/two.jpg",
+                        VideoLink = "https://localhost:7241/api/files/video/two.mp4",
+                        ThumbLink = "https://localhost:7241/api/files/image/two.jpg",
                     },
                     VideoProcessed = true,
                     UserId = testUser.Id,

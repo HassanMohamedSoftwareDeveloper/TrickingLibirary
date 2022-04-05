@@ -42,7 +42,7 @@ public class VersionMigrationContext
         }
         target.Active = true;
 
-
+        MigrateRelationships(modItem.Current, modItem.Target, modItem.Type);
     }
     #endregion
 
@@ -54,6 +54,25 @@ public class VersionMigrationContext
             return dbContext.Tricks;
         }
         throw new ArgumentException(null, nameof(type));
+    }
+    private void MigrateRelationships(int current, int target, string type)
+    {
+        if (type.Equals(MpderationTypes.Trick))
+        {
+            if (current > 0)
+            {
+                dbContext.TrickRelationships
+                    .Where(x => x.PrerequisiteId == current || x.ProgressionId == current)
+                    .ToList()
+                    .ForEach(x => x.Active = false);
+            }
+            dbContext.TrickRelationships
+                   .Where(x => x.PrerequisiteId == target || x.ProgressionId == target)
+                   .ToList()
+                   .ForEach(x => x.Active = false);
+        }
+        else
+            throw new ArgumentException(null, nameof(type));
     }
     private (VersionModel Current, VersionModel Next) ResolveCurrentAndNextEntities(string targetId, int targetVersion, string targetType)
     {

@@ -1,15 +1,13 @@
 <template>
   <v-card>
-    <v-card-title
-      >Create Trick
+    <v-card-title>
+      Create Trick
       <v-spacer></v-spacer>
       <v-btn @click="close" icon> <v-icon>mdi-close</v-icon> </v-btn>
     </v-card-title>
     <v-stepper class="rounded-0" v-model="step">
       <v-stepper-header class="elevation-0">
-        <v-stepper-step :complete="step > 1" step="1"
-          >Trick Information</v-stepper-step
-        >
+        <v-stepper-step :complete="step > 1" step="1">Trick Information</v-stepper-step>
         <v-stepper-step step="2">Review</v-stepper-step>
       </v-stepper-header>
 
@@ -17,42 +15,32 @@
         <v-stepper-content step="1">
           <div>
             <v-text-field label="Name" v-model="form.name"></v-text-field>
-            <v-text-field
-              label="Description"
-              v-model="form.description"
-            ></v-text-field>
-            <v-select
-              :items="difficultyItems"
-              v-model="form.difficulty"
-              label="Difficulty"
-            ></v-select>
-            <v-select
-              :items="trickItems"
-              v-model="form.prerequisites"
-              label="Prerequisites"
-              multiple
-              small-chips
-              chips
-              deletable-chips
-            ></v-select>
-            <v-select
-              :items="trickItems"
-              v-model="form.progressions"
-              label="Progressions"
-              multiple
-              small-chips
-              chips
-              deletable-chips
-            ></v-select>
-            <v-select
-              :items="categoryItems"
-              v-model="form.categories"
-              label="Categories"
-              multiple
-              small-chips
-              chips
-              deletable-chips
-            ></v-select>
+            <v-text-field label="Description"
+                          v-model="form.description"></v-text-field>
+            <v-select :items="lists.difficulties.map(x=>({value:x.id,text:x.name}))"
+                      v-model="form.difficulty"
+                      label="Difficulty"></v-select>
+            <v-select :items="lists.tricks.filter(x=>!form.id || x.id!==form.id).map(x=>({value:x.id,text:x.name}))"
+                      v-model="form.prerequisites"
+                      label="Prerequisites"
+                      multiple
+                      small-chips
+                      chips
+                      deletable-chips></v-select>
+            <v-select :items="lists.tricks.filter(x=>!form.id || x.id!==form.id).map(x=>({value:x.id,text:x.name}))"
+                      v-model="form.progressions"
+                      label="Progressions"
+                      multiple
+                      small-chips
+                      chips
+                      deletable-chips></v-select>
+            <v-select :items="lists.categories.map(x=>({value:x.id,text:x.name}))"
+                      v-model="form.categories"
+                      label="Categories"
+                      multiple
+                      small-chips
+                      chips
+                      deletable-chips></v-select>
             <div class="d-flex justify-center">
               <v-btn @click="step++">Next</v-btn>
             </div>
@@ -70,47 +58,47 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapState } from "vuex";
-import { close } from "./_shared";
+  import { mapActions, mapState } from "vuex";
+  import { close } from "./_shared";
 
-export default {
-  name: "trick-steps",
-  mixins: [close],
-  data: () => ({
-    step: 1,
-    form: {
-      name: "",
-      description: "",
-      difficulty: "",
-      prerequisites: [],
-      progressions: [],
-      categories: [],
-    },
-    testDate: [
-      { text: "Foo", value: 1 },
-      { text: "Bar", value: 2 },
-      { text: "Baz", value: 3 },
-    ],
-  }),
-  created() {
-    if (this.editing) {
-      Object.assign(this.form, this.editPayLoad);
-    }
-  },
-  computed: {
-    ...mapState("video-upload", ["editing", "editPayLoad"]),
-    ...mapGetters("tricks", ["categoryItems", "difficultyItems", "trickItems"]),
-  },
-  methods: {
-    ...mapActions("tricks", ["createTrick","updateTrick"]),
-    async save() {
-      if(this.editing){
-        await this.updateTrick({ form: this.form });
-      }else{
-        await this.createTrick({ form: this.form });
+  export default {
+    name: "trick-steps",
+    mixins: [close],
+    data: () => ({
+      step: 1,
+      form: {
+        name: "",
+        description: "",
+        difficulty: "",
+        prerequisites: [],
+        progressions: [],
+        categories: [],
+      },
+      testDate: [
+        { text: "Foo", value: 1 },
+        { text: "Bar", value: 2 },
+        { text: "Baz", value: 3 },
+      ],
+    }),
+    created() {
+      if (this.editing) {
+        Object.assign(this.form, this.editPayLoad);
       }
-      this.close();
     },
-  },
-};
+    computed: {
+      ...mapState("video-upload", ["editing", "editPayLoad"]),
+      ...mapState("tricks", ["lists"]),
+    },
+    methods: {
+      ...mapActions("tricks", ["createTrick", "updateTrick"]),
+      async save() {
+        if (this.editing) {
+          await this.updateTrick({ form: this.form });
+        } else {
+          await this.createTrick({ form: this.form });
+        }
+        this.close();
+      },
+    },
+  };
 </script>
