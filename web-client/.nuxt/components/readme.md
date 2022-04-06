@@ -9,6 +9,7 @@ You can directly use them in pages and other components without the need to impo
 - `<HeaderMenu>` | `<header-menu>` (components/header-menu.vue)
 - `<ItemContentLayout>` | `<item-content-layout>` (components/item-content-layout.vue)
 - `<Submission>` | `<submission>` (components/submission.vue)
+- `<TrickInfoCard>` | `<trick-info-card>` (components/trick-info-card.vue)
 - `<TrickList>` | `<trick-list>` (components/trick-list.vue)
 - `<UserHeader>` | `<user-header>` (components/user-header.vue)
 - `<VideoPlayer>` | `<video-player>` (components/video-player.vue)

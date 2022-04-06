@@ -1,6 +1,7 @@
 export { default as HeaderMenu } from '../..\\components\\header-menu.vue'
 export { default as ItemContentLayout } from '../..\\components\\item-content-layout.vue'
 export { default as Submission } from '../..\\components\\submission.vue'
+export { default as TrickInfoCard } from '../..\\components\\trick-info-card.vue'
 export { default as TrickList } from '../..\\components\\trick-list.vue'
 export { default as UserHeader } from '../..\\components\\user-header.vue'
 export { default as VideoPlayer } from '../..\\components\\video-player.vue'

@@ -8,6 +8,9 @@
   "Submission": {
     "description": "Auto imported from components/submission.vue"
   },
+  "TrickInfoCard": {
+    "description": "Auto imported from components/trick-info-card.vue"
+  },
   "TrickList": {
     "description": "Auto imported from components/trick-list.vue"
   },

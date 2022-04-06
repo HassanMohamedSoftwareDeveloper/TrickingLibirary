@@ -46,6 +46,7 @@ public static class TestDataHelper
                 new Domain.Entities.Trick
                 {
                     Id = 1,
+                    UserId= testUser.Id,
                     Slug = "backwards-roll",
                     Version = 1,
                     Active = true,
@@ -60,6 +61,7 @@ public static class TestDataHelper
                 new Domain.Entities.Trick
                 {
                     Id = 2,
+                    UserId = testUser.Id,
                     Slug = "forwards-roll",
                     Version = 1,
                     Active = true,
@@ -74,6 +76,7 @@ public static class TestDataHelper
                 new Domain.Entities.Trick
                 {
                     Id = 3,
+                    UserId = testUser.Id,
                     Slug = "back-flip",
                     Version = 1,
                     Active = true,
@@ -95,7 +98,7 @@ public static class TestDataHelper
                 new Domain.Entities.Submission
                 {
                     TrickId = "back-flip",
-                    Description = "test desceiption",
+                    Description = "test description",
                     Video = new Domain.Entities.Video
                     {
                         VideoLink = "https://localhost:7241/api/files/video/one.mp4",
@@ -108,7 +111,7 @@ public static class TestDataHelper
                 new Domain.Entities.Submission
                 {
                     TrickId = "back-flip",
-                    Description = "test desceiption",
+                    Description = "test description",
                     Video = new Domain.Entities.Video
                     {
                         VideoLink = "https://localhost:7241/api/files/video/two.mp4",
